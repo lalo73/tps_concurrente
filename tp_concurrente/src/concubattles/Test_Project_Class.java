@@ -8,6 +8,7 @@ package concubattles;
 public class Test_Project_Class {
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
+		System.out.println(" Hi everyone..");
 	}
 	
 }
