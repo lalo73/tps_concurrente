@@ -1,7 +1,7 @@
 package concubattles;
 
 import java.util.*;
-
+import concubattles.Channel;
 import concubattles.Battle;
 import concubattles.Soldier;
 
@@ -10,6 +10,7 @@ public class Castle extends Battle {
   int team;
   ArrayList<Soldier> soldiers = new ArrayList<Soldier>();
   ArrayList<Way> roads = new ArrayList<Way>();
+  // SE DEBEN AGREGAR CANALES POR LOS QUE VAN A RECIBIRSE LOS SOLDADOS..
   
   
   /** Creacion de soldados del equipo del castillo
@@ -26,7 +27,8 @@ public class Castle extends Battle {
  * de ser asi se termina el juego...
  */
 @Override
-public void soldierArrive(Soldier soldierEnemy) {
+public void soldierArrive() {
+	Soldier soldierEnemy = reciveSoldier.recieve(); // CREACION DEL CANAL DONDE SE RECIVE EL SOLDADO
 	this.startBattle(this.soldiers, soldierEnemy);
 	if (! (this.soldiers.get(0).team == this.team)){
 		// AQUI SE DEBERIA PONER EL END GAME!!

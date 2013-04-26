@@ -42,6 +42,6 @@ public abstract class Battle {
 		  }
 		 }
 	  }
-	 public abstract void soldierArrive(Soldier soldierEnemy);
+	 public abstract void soldierArrive();
 	
 }
