@@ -37,8 +37,10 @@ public abstract class Battle {
 			  if (s.equals(this.fight(s,x))){
 				  s.experienceUp();
 				  break;
-			  }else 
+			  }else {
+				  x.experienceUp();
 				  soldiers.remove(0);
+			  }
 		  }
 		 }
 	  }

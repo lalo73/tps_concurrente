@@ -1,7 +1,13 @@
 package concubattles;
 
-public class Soldier {
-     int team;
+import java.io.Serializable;
+
+public class Soldier implements Serializable {
+
+
+	private static final long serialVersionUID = 1L;
+	 
+	 int team;
 	 int level;
 	 int experience;
 	 int experienceToNextLevel;
