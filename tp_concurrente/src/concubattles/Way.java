@@ -1,12 +1,15 @@
 package concubattles;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import concubattles.Channel;
 import concubattles.Battle;
 import concubattles.Soldier;
 
-public class Way  extends Battle{
+public class Way  extends Battle implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	/** Discutir si el numero de los canales se hacen con constantes ya que un camino siempre 
 	 * conecta 2 ciudades y las ciudades deberan crear los mismos canales respecto a los 
 	 * caminos..
@@ -19,10 +22,10 @@ public class Way  extends Battle{
 @Override
 public void soldierArrive() {
 	/**
-	 * Con el canal de permisos de arregla el problema de posibles "interlivings"
+	 * Con el canal de permisos se arregla el problema de posibles "interlivings"
 	 */
     Soldier soldierArrive = this.cityChannelAB.receive();
-	if (this.soldiers.isEmpty() | this.soldiers.get(0).team == soldierArrive.team){    // preguntar si hay "OR" de circuito corto
+	if (this.soldiers.isEmpty() || this.soldiers.get(0).team == soldierArrive.team){    // preguntar si hay "OR" de circuito corto
 		this.soldiers.add(soldierArrive);
 		this.permissionChannel.send("ok");     // envia un permiso para recibir otro soldado
 	} else {

@@ -39,7 +39,7 @@ public abstract class Battle {
 				  break;
 			  }else {
 				  x.experienceUp();
-				  soldiers.remove(0);
+				  soldiers.remove(s);
 			  }
 		  }
 		 }
