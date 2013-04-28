@@ -2,12 +2,12 @@ package concubattles;
 
 import java.util.*;
 import concubattles.Channel;
-import concubattles.Battle;
+import concubattles.Place;
 import concubattles.Soldier;
 import concubattles.Way;
 
 
-public class Castle extends Battle {
+public class Castle extends Place {
   int team;
   ArrayList<Soldier> soldiers = new ArrayList<Soldier>();
   ArrayList<Way> roads = new ArrayList<>();  

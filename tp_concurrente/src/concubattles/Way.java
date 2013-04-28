@@ -4,10 +4,10 @@ package concubattles;
 import java.io.Serializable;
 import java.util.ArrayList;
 import concubattles.Channel;
-import concubattles.Battle;
+import concubattles.Place;
 import concubattles.Soldier;
 
-public class Way  extends Battle implements Serializable{
+public class Way  extends Place implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	/** Discutir si el numero de los canales se hacen con constantes ya que un camino siempre 

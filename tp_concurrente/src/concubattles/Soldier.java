@@ -10,13 +10,12 @@ public class Soldier implements Serializable {
 	int level;
 	int experience;
 	int experienceToNextLevel;
-	Battle my_place;
-	Battle next_place;
-	Battle previous_place;
-	boolean live = false;
+	Place my_place;
+	Place previous_place;
+	boolean live;
 
-	public Soldier(int team) {
-		super();
+	public Soldier(Place my_place, int team) {
+		this.my_place = my_place;
 		this.team = team;
 		this.level = 1;
 		this.experience = 0;
@@ -43,27 +42,31 @@ public class Soldier implements Serializable {
 	public void levelUp() {
 		this.level = this.level + 1;
 	}
-	
-	public void run(){
-		while(this.live){
-		Battle place = this.myPlace;
-		place.getControlChannel().receive();
-		SoldierState state = place.getMyState(this);
-		switch (state) {
-		case dead:
-			this.live = false;
-			place.controlChannel().send();
-			break;
-		case live:
-			Battle next_place = place.get_nect_place(this.previous_place);
-			next_place.controlChannel().reveicve();
-			next_place.send(this);
-			place.remove(this);
-			next_place.controlChannel().send();
-			place.controlChannel().send();
-			break;		
+
+	public Place getMyPlace() {
+		return this.my_place;
+	}
+
+	public void run() {
+		while (this.live) {
+			Place place = this.getMyPlace();
+			place.getPermission();
+			SoldierState state = place.getSoldierState(this);
+			switch (state) {
+			case dead:
+				this.live = false;
+				place.returnPermission();
+				break;
+			case live:
+				Place next_place = place.getNextPlace(this.previous_place);
+				next_place.getPermission();
+				next_place.send(this);
+				place.remove(this);
+				next_place.returnPermission();
+				place.returnPermission();
+				break;
+			}
 		}
-		
 	}
 
 	/**
