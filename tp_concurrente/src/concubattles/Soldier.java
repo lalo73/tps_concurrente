@@ -43,8 +43,9 @@ public class Soldier implements Serializable {
 	public void levelUp() {
 		this.level = this.level + 1;
 	}
-	
+
 	public void run(){
+		while(thislive){
 		Battle place = this.myPlace;
 		place.getControlChannel();
 		SoldierState state = place.getMyState(this);
@@ -60,6 +61,8 @@ public class Soldier implements Serializable {
 			next_place.controlChannel().send()
 			place.controlChannel().send()
 			break;		
+		}
+		}
 	}
 
 	/**
