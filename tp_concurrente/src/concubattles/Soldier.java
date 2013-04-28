@@ -10,7 +10,7 @@ public class Soldier implements Serializable {
 	int level;
 	int experience;
 	int experienceToNextLevel;
-	Battle myPlace;
+	Battle my_place;
 	Battle next_place;
 	Battle previous_place;
 	boolean live = false;
@@ -43,26 +43,27 @@ public class Soldier implements Serializable {
 	public void levelUp() {
 		this.level = this.level + 1;
 	}
-
+	
 	public void run(){
-		while(thislive){
+		while(this.live){
 		Battle place = this.myPlace;
-		place.getControlChannel();
+		place.getControlChannel().receive();
 		SoldierState state = place.getMyState(this);
 		switch (state) {
 		case dead:
-			this.live = False;
+			this.live = false;
+			place.controlChannel().send();
 			break;
 		case live:
-			Battle next_place = this.place.get_nect_place(this.previous_place);
-			next_place.ConctrolChannel().reveicve();
-			next_place.add(this);
-			this.place.remove(this);
-			next_place.controlChannel().send()
-			place.controlChannel().send()
+			Battle next_place = place.get_nect_place(this.previous_place);
+			next_place.controlChannel().reveicve();
+			next_place.send(this);
+			place.remove(this);
+			next_place.controlChannel().send();
+			place.controlChannel().send();
 			break;		
 		}
-		}
+		
 	}
 
 	/**
