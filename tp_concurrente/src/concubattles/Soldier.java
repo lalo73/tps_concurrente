@@ -6,15 +6,19 @@ public class Soldier implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	int team;
-	int level;
-	int experience;
-	int experienceToNextLevel;
-	Place my_place;
-	Place previous_place;
-	boolean live;
+	private Castle team;
+	private int level;
+	private int experience;
+	private int experienceToNextLevel;
+	private Place my_place;
+	private Place previous_place;
+	private boolean live;
+	
+	public int getLevel(){
+		return this.level;
+	}
 
-	public Soldier(Place my_place, int team) {
+	public Soldier(Place my_place, Castle team) {
 		this.my_place = my_place;
 		this.team = team;
 		this.level = 1;
@@ -63,12 +67,12 @@ public class Soldier implements Serializable {
 				place.getPermission();
 			}
 			if (this.isLive()) {
-				next_place.send(this);
+				next_place.receive(this);
 				place.remove(this);
 				next_place.returnPermission();
-				place.returnPermission();
-				break;
+				place.returnPermission();				
 			} else {
+				next_place.returnPermission();
 				place.returnPermission();
 				break;
 			}

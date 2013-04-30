@@ -31,10 +31,11 @@ public abstract class Place {
 	/**
 	 * La primera version de este metodo debe resolver batallas si las hubiera.
 	 * agregar al soldado a si mismo, etc
+	 * Debe setear el valor de la variable live de soldado en caso de estar muerto.
 	 * TODO: Que lo haga un thread aparte.
 	 * @param soldier
 	 */
-	public abstract void send(Soldier soldier);
+	public abstract void receive(Soldier soldier);
 
 	/**
 	 * Talavez simplemente remueve el soldado de la lista de soldados
@@ -51,8 +52,8 @@ public abstract class Place {
 	 * @return soldado ganador
 	 */
 	public Soldier fight(Soldier soldier, Soldier soldierEnemy) {
-		int x = (int) (Math.random() * soldier.level);
-		int y = (int) (Math.random() * soldierEnemy.level);
+		int x = (int) (Math.random() * soldier.getLevel());
+		int y = (int) (Math.random() * soldierEnemy.getLevel());
 		if (x < y) {
 			return soldier;
 		} else {
