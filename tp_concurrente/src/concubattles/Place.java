@@ -26,15 +26,7 @@ public abstract class Place {
 	 * @param previous_place
 	 * @return Place subclass instance
 	 */
-	public abstract Place getNextPlace(Place previous_place);
-
-	/**
-	 * Debe retornar el estado del soldado, talvez lo mataron pero aun no se
-	 * entero :P
-	 * @param soldier
-	 * @return
-	 */
-	public abstract SoldierState getSoldierState(Soldier soldier);
+	public abstract Place getNextPlace(Place previous_place);	
 
 	/**
 	 * La primera version de este metodo debe resolver batallas si las hubiera.

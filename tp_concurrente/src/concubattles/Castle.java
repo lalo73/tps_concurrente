@@ -7,7 +7,7 @@ import concubattles.Soldier;
 import concubattles.Way;
 
 
-public class Castle extends Place {
+public class Castle extends City {
   int team;
   ArrayList<Soldier> soldiers = new ArrayList<Soldier>();
   ArrayList<Way> roads = new ArrayList<>();  

@@ -47,25 +47,32 @@ public class Soldier implements Serializable {
 		return this.my_place;
 	}
 
+	public boolean isLive() {
+		return this.live;
+	}
+
 	public void run() {
 		while (this.live) {
 			Place place = this.getMyPlace();
-			place.getPermission();
-			SoldierState state = place.getSoldierState(this);
-			switch (state) {
-			case dead:
-				this.live = false;
-				place.returnPermission();
-				break;
-			case live:
-				Place next_place = place.getNextPlace(this.previous_place);
+			Place next_place = place.getNextPlace(this.previous_place);
+			if (place instanceof City) {
+				place.getPermission();
 				next_place.getPermission();
+			} else {
+				next_place.getPermission();
+				place.getPermission();
+			}
+			if (this.isLive()) {
 				next_place.send(this);
 				place.remove(this);
 				next_place.returnPermission();
 				place.returnPermission();
 				break;
+			} else {
+				place.returnPermission();
+				break;
 			}
+
 		}
 	}
 
@@ -83,24 +90,5 @@ public class Soldier implements Serializable {
 		}
 
 	}
-	// public static void main(String[] args) {
-	// Soldier x = new Soldier();
-	// System.out.println("soldado nuevo");
-	// System.out.println(x.experience);
-	// System.out.println(x.experienceToNextLevel);
-	// System.out.println("mato 1 solado");
-	// x.experienceUp();
-	// System.out.println(x.level);
-	// System.out.println(x.experienceToNextLevel);
-	// System.out.println("mato al segundo soldado");
-	// x.experienceUp();
-	// System.out.println(x.level);
-	// System.out.println(x.experience);
-	// System.out.println(x.experienceToNextLevel);
-	// System.out.println("mato al tercer soldado");
-	// x.experienceUp();
-	// System.out.println(x.level);
-	// System.out.println(x.experience);
-	// System.out.println(x.experienceToNextLevel);
-	// }
+
 }

@@ -42,23 +42,24 @@ public class Soldier {
 	public void levelUp() {
 		this.level = this.level + 1;
 	}
+	
+	public boolean isLive(){
+		return this.live;
+	}
 
 	public void run() {
 		while (this.live) {
 			Place place = this.getCurrentPlace();			
 			Gate gate = place.getAGate();
-			gate.getPermission();
-			SoldierState state = place.getSoldierState(this);
-			switch (state) {
-			case dead:
-				this.live = false;
-				gate.returnPermission();
-				break;
-			case live:				
+			gate.getPermission();			
+			if(this.isLive()){
 				gate.takeAwayFrom(this, place);
 				gate.returnPermission();
 				break;
-			}
+			}else{
+				gate.returnPermission();
+				break;
+			}			
 		}
 	}
 	
