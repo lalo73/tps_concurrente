@@ -20,6 +20,7 @@ public abstract class Place {
 
 	public void saveConnection(Place place, Gate gate) {
 		this.connections.put(place, gate);
+		this.knownPlaces.add(place);
 	}
 
 	public Gate getAGate(Place previousPlace) {
@@ -52,6 +53,7 @@ public abstract class Place {
 		this.connections = new HashMap<Place, Gate>();
 		this.knownPlaces = new ArrayList<Place>();
 		this.soldiers = new ArrayList<Soldier>();
+		this.controlChannel.send("");
 	}
 
 	public void getPermission() {
@@ -115,6 +117,7 @@ public abstract class Place {
 					this.getSoldiers().remove(soldier);
 				} else {
 					soldierEnemy.setLive(false);
+					System.out.println("Soldier killed");
 				}
 				winner.experienceUp();
 			}

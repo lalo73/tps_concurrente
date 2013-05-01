@@ -11,6 +11,8 @@ public class Soldier extends Thread{
 	private boolean live;
 
 	public Soldier(Castle team) {
+		System.out.println("Soldier created!");
+		this.live = true;
 		this.currentPlace = team;
 		this.team = team;
 		this.level = 1;
@@ -57,19 +59,20 @@ public class Soldier extends Thread{
 		return this.live;
 	}
 	
-	public boolean teamGaming(){
-		this.getTeam().getPermission();
-		boolean gaming = this.getTeam().isLive();
-		this.getTeam().returnPermission();
+	public boolean teamGaming(){		
+		boolean gaming = this.getTeam().isLive();		
 		return gaming;
 	}
 
 	public void run() {
+		System.out.println("Soldier running");
 		while (this.isLive()) {
+			System.out.println("Soldier moving on");
 			Place place = this.getCurrentPlace();
 			Gate gate = place.getAGate(this.getPreviousPlace());
 			gate.getPermission();
 			if (this.isLive() && this.teamGaming()) {
+				System.out.println("Soldier moving");
 				gate.takeAwayFrom(this, place);
 				gate.returnPermission();
 			} else {

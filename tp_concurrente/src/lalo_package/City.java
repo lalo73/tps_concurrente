@@ -17,7 +17,7 @@ public class City extends Place {
 	
 	@Override
 	public void receive(Soldier soldier){
-		if (this.getTeam().equals(soldier.getTeam())) {
+		if (this.getTeam() == soldier.getTeam()) {
 			this.getSoldiers().add(soldier);
 		} else {
 			this.startBattle(soldier);

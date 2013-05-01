@@ -2,7 +2,7 @@ package lalo_package;
 
 import ar.edu.unq.tpi.pconc.Channel;
 
-public class Castle extends City {
+public class Castle extends Place {
 	private boolean live;
 
 	public Castle(Channel<String> controlChannel) {
@@ -12,6 +12,7 @@ public class Castle extends City {
 
 	public void conquered() {
 		this.live = false;
+		System.out.println("Castle conquered " + this.toString());
 	}
 
 	public void createSoldier() {
@@ -27,6 +28,15 @@ public class Castle extends City {
 	@Override
 	public void conqueredBy(Soldier soldier) {
 		this.conquered();
+	}
+
+	@Override
+	public void receive(Soldier soldier){
+		if (this.equals(soldier.getTeam())) {
+			this.getSoldiers().add(soldier);
+		} else {
+			this.startBattle(soldier);
+		}
 	}
 
 }

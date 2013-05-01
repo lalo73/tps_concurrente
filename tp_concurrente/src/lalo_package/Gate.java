@@ -12,6 +12,7 @@ public class Gate {
 		this.placeOne = placeOne;
 		this.placeTwo = placeTwo;
 		this.controlChannel = controlChannel;
+		this.controlChannel.send("");
 	}
 	
 	public Place getAnotherPlace(Place excludedPlace){
