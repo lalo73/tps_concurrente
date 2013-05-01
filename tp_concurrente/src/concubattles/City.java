@@ -26,13 +26,8 @@ public class City extends Place {
 	public void receive(Soldier soldier) {
 		if (!(this.getTeam() == soldier.getTeam())){
 			this.startBattle(soldier);
-			if (soldier.getLive()){
-				this.setTeam(soldier.getTeam());
-			}
 		}else {
-			this.getSoldiers().add(soldier);			
-			soldier.setPrevious_place(soldier.getMy_place());
-			soldier.setMy_place(this);			
+			this.conqueredBy(soldier);		
 		}
 
 	}
@@ -44,8 +39,9 @@ public class City extends Place {
 
 	@Override
 	public void conqueredBy(Soldier soldier) {
-		throw new RuntimeErrorException(null, "");
-		
+		this.getSoldiers().add(soldier);			
+		soldier.setPrevious_place(soldier.getMy_place());
+		soldier.setMy_place(this);			
 	}
 
 }

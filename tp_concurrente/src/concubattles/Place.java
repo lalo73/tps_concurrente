@@ -2,8 +2,6 @@ package concubattles;
 
 import java.util.ArrayList;
 
-import javax.lang.model.element.NestingKind;
-
 import concubattles.Soldier;
 
 public abstract class Place {
