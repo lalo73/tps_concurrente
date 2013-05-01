@@ -24,10 +24,12 @@ public class City extends Place {
 
 	@Override
 	public void receive(Soldier soldier) {
+		soldier.setPrevious_place(soldier.getMy_place());
+		soldier.setMy_place(this);
 		if (!(this.getTeam() == soldier.getTeam())){
 			this.startBattle(soldier);
 		}else {
-			this.conqueredBy(soldier);		
+			this.getSoldiers().add(soldier);
 		}
 
 	}
