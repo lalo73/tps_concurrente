@@ -27,11 +27,16 @@ public abstract class Place {
 	 * @return Place subclass instance
 	 */
 	public Place getNextPlace(Place previous_place) {
-		this.getRoads().remove(previous_place);
-		int x = (int) (Math.random() * (this.getRoads().size()));
-		Place nextPlace = this.getRoads().get(x);
-		this.getRoads().add(previous_place);
-		return nextPlace;
+		if(this.getRoads().size() == 1){
+			return this.getRoads().get(0);
+		}else{
+			this.getRoads().remove(previous_place);
+			int x = (int) (Math.random() * (this.getRoads().size()));
+			Place nextPlace = this.getRoads().get(x);
+			this.getRoads().add(previous_place);
+			return nextPlace;
+		}
+		
 
 	}
 

@@ -1,7 +1,7 @@
 package concubattles;
 
 public class Soldier extends Thread {
-    int numerito;
+	int numerito;
 	private Castle team;
 	private int level;
 	private int experience;
@@ -51,22 +51,23 @@ public class Soldier extends Thread {
 
 	public void checkForLevel() {
 		if (this.getLevel() > 1) {
-			this.getTeam().createSoldier(this.numerito);
+			this.getTeam().createSoldier();
 		}
 	}
 
 	public void notifyCreateSoldier() {
 		if (this.getMy_place() == this.getTeam()
 				|| this.getPrevious_place() == this.getTeam()) {
-			this.getTeam().createSoldier(this.numerito);
+			this.getTeam().createSoldier();
 		} else {
 			this.getTeam().getPermission();
-			this.getTeam().createSoldier(this.numerito);
+			this.getTeam().createSoldier();
 			this.getTeam().returnPermission();
 		}
 
 	}
-/**
+
+	/**
  * 
  */
 	public void run() {
@@ -80,14 +81,15 @@ public class Soldier extends Thread {
 				place.getPermission();
 				next_place.getPermission();
 			}
-			if (this.isLive()) {
+			if (this.isLive() && this.getTeam().live) {
 				try {
 					sleep(0000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("Soldado" + this.numerito + "moviendose");
+				System.out.println("Soldado" + this.numerito + " "
+						+ this.getTeam().castleID + " " + " moviendose");
 				place.remove(this);
 				next_place.receive(this);
 				place.returnPermission();
