@@ -13,8 +13,8 @@ public class Castle extends Place {
 		this.winner = false;
 	}
 
-	public void createSoldier() {		
-		Soldier x = new Soldier(this, this);
+	public void createSoldier(int h) {		
+		Soldier x = new Soldier(this, this,h);
 		this.getSoldiers().add(x);
 		x.start();
 		System.out.println("Soldado creado");
@@ -22,7 +22,7 @@ public class Castle extends Place {
 
 	@Override
 	public void receive(Soldier soldier) {
-		System.out.println("Soldado en castle");
+		System.out.println("Soldado" + soldier.numerito + "en castle");
 		soldier.setPrevious_place(soldier.getMy_place());
 		soldier.setMy_place(this);
 		if (!(this == soldier.getTeam())) {

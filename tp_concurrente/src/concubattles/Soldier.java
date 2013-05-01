@@ -1,7 +1,7 @@
 package concubattles;
 
 public class Soldier extends Thread {
-
+    int numerito;
 	private Castle team;
 	private int level;
 	private int experience;
@@ -10,13 +10,14 @@ public class Soldier extends Thread {
 	private Place previous_place;
 	private boolean live;
 
-	public Soldier(Place my_place, Castle team) {
+	public Soldier(Place my_place, Castle team, int numerito) {
 		this.my_place = my_place;
 		this.team = team;
 		this.level = 1;
 		this.experience = 0;
 		this.experienceToNextLevel = 1;
 		this.live = true;
+		this.numerito = numerito;
 	}
 
 	public int fibonacci(int e) {
@@ -50,17 +51,17 @@ public class Soldier extends Thread {
 
 	public void checkForLevel() {
 		if (this.getLevel() > 1) {
-			this.getTeam().createSoldier();
+			this.getTeam().createSoldier(this.numerito);
 		}
 	}
 
 	public void notifyCreateSoldier() {
 		if (this.getMy_place() == this.getTeam()
 				|| this.getPrevious_place() == this.getTeam()) {
-			this.getTeam().createSoldier();
+			this.getTeam().createSoldier(this.numerito);
 		} else {
 			this.getTeam().getPermission();
-			this.getTeam().createSoldier();
+			this.getTeam().createSoldier(this.numerito);
 			this.getTeam().returnPermission();
 		}
 
@@ -84,7 +85,7 @@ public class Soldier extends Thread {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("Soldado moviendose");
+				System.out.println("Soldado" + this.numerito + "moviendose");
 				place.remove(this);
 				next_place.receive(this);
 				place.returnPermission();

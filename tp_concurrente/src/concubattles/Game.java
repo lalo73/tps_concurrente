@@ -42,8 +42,8 @@ public class Game {
 		game.connect(team1, city1);
 		game.connect(city1, city2);
 		game.connect(city2, team2);
-		team1.createSoldier();
-		team2.createSoldier();
+		team1.createSoldier(1);
+		team2.createSoldier(2);
 	}
 
 }
