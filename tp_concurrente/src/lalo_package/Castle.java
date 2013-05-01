@@ -2,34 +2,31 @@ package lalo_package;
 
 import ar.edu.unq.tpi.pconc.Channel;
 
-public class Castle extends Place {
+public class Castle extends City {
+	private boolean live;
 
 	public Castle(Channel<String> controlChannel) {
 		super(controlChannel);
+		this.live = true;
+	}
+
+	public void conquered() {
+		this.live = false;
+	}
+
+	public void createSoldier() {
+		Soldier soldier = new Soldier(this);
+		this.getSoldiers().add(soldier);
+		soldier.start();
+	}
+
+	public boolean isLive() {
+		return this.live;
 	}
 
 	@Override
-	public Place getNextPlace(Place previous_place) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public SoldierState getSoldierState(Soldier soldier) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void receive(Soldier soldier) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void remove(Soldier soldier) {
-		// TODO Auto-generated method stub
-
+	public void conqueredBy(Soldier soldier) {
+		this.conquered();
 	}
 
 }

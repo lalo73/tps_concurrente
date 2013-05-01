@@ -1,24 +1,34 @@
 package lalo_package;
 
-public class Soldier {	
+public class Soldier extends Thread{
 
-	public Castle team;
-	int level;
-	int experience;
-	int experienceToNextLevel;
-	Place currentPlace;
-	Place previousPlace;
-	boolean live;
+	private Castle team;
+	private int level;
+	private int experience;
+	private int experienceToNextLevel;
+	private Place currentPlace;
+	private Place previousPlace;
+	private boolean live;
 
-	public Soldier(Place myPlace, Castle team) {
-		this.currentPlace = myPlace;
+	public Soldier(Castle team) {
+		this.currentPlace = team;
 		this.team = team;
 		this.level = 1;
 		this.experience = 0;
 		this.experienceToNextLevel = 1;
 	}
-	
-	public Place getCurrentPlace(){
+
+	public void notifyCreateSoldier() {
+		this.getTeam().getPermission();
+		this.getTeam().createSoldier();
+		this.getTeam().returnPermission();
+	}
+
+	public Castle getTeam() {
+		return this.team;
+	}
+
+	public Place getCurrentPlace() {
 		return this.currentPlace;
 	}
 
@@ -42,28 +52,34 @@ public class Soldier {
 	public void levelUp() {
 		this.level = this.level + 1;
 	}
-	
-	public boolean isLive(){
+
+	public boolean isLive() {
 		return this.live;
+	}
+	
+	public boolean teamGaming(){
+		this.getTeam().getPermission();
+		boolean gaming = this.getTeam().isLive();
+		this.getTeam().returnPermission();
+		return gaming;
 	}
 
 	public void run() {
-		while (this.live) {
-			Place place = this.getCurrentPlace();			
-			Gate gate = place.getAGate();
-			gate.getPermission();			
-			if(this.isLive()){
+		while (this.isLive()) {
+			Place place = this.getCurrentPlace();
+			Gate gate = place.getAGate(this.getPreviousPlace());
+			gate.getPermission();
+			if (this.isLive() && this.teamGaming()) {
 				gate.takeAwayFrom(this, place);
 				gate.returnPermission();
-				break;
-			}else{
+			} else {
 				gate.returnPermission();
 				break;
-			}			
+			}
 		}
 	}
-	
-	public Place getPreviousPlace(){
+
+	public Place getPreviousPlace() {
 		return this.previousPlace;
 	}
 
@@ -81,4 +97,45 @@ public class Soldier {
 		}
 
 	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public int getExperience() {
+		return experience;
+	}
+
+	public void setExperience(int experience) {
+		this.experience = experience;
+	}
+
+	public int getExperienceToNextLevel() {
+		return experienceToNextLevel;
+	}
+
+	public void setExperienceToNextLevel(int experienceToNextLevel) {
+		this.experienceToNextLevel = experienceToNextLevel;
+	}
+
+	public void setTeam(Castle team) {
+		this.team = team;
+	}
+
+	public void setCurrentPlace(Place currentPlace) {
+		this.currentPlace = currentPlace;
+	}
+
+	public void setPreviousPlace(Place previousPlace) {
+		this.previousPlace = previousPlace;
+	}
+
+	public void setLive(boolean live) {
+		this.live = live;
+	}
+
 }
