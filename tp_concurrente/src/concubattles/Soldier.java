@@ -1,7 +1,7 @@
 package concubattles;
 
 public class Soldier extends Thread {
-	
+
 	private Castle team;
 	private int level;
 	private int experience;
@@ -46,23 +46,25 @@ public class Soldier extends Thread {
 	public boolean isLive() {
 		return this.live;
 	}
-    public void checkForLevel(){                       // SI EL LEVEL DEL SOLDADO ES MAYOR A 1
-    	if (this.getLevel() > 1){                     // CUANDO ESTE MUERE SE TIENE QUE CREAR OTRO
-    		this.getTeam().createSoldier();
-    	}
-    }
-    
-    public void notifyCreateSoldier(){
-    	if(this.getMy_place() == this.getTeam() || this.getPrevious_place() == this.getTeam()){
-    		this.getTeam().createSoldier();    		
-    	}else{
-    		this.getTeam().getPermission();
-    		this.getTeam().createSoldier();
-    		this.getTeam().returnPermission();
-    	}
-    	
-    	
-    }
+
+	public void checkForLevel() {
+		if (this.getLevel() > 1) {
+			this.getTeam().createSoldier();
+		}
+	}
+
+	public void notifyCreateSoldier() {
+		if (this.getMy_place() == this.getTeam()
+				|| this.getPrevious_place() == this.getTeam()) {
+			this.getTeam().createSoldier();
+		} else {
+			this.getTeam().getPermission();
+			this.getTeam().createSoldier();
+			this.getTeam().returnPermission();
+		}
+
+	}
+
 	public void run() {
 		while (this.live) {
 			Place place = this.getMyPlace();
@@ -70,18 +72,18 @@ public class Soldier extends Thread {
 			if (place instanceof Way) {
 				next_place.getPermission();
 				place.getPermission();
-			} else {				
+			} else {
 				place.getPermission();
 				next_place.getPermission();
 			}
 			if (this.isLive()) {
-				place.remove(this);				
+				place.remove(this);
 				next_place.receive(this);
 				place.returnPermission();
-				next_place.returnPermission();											
+				next_place.returnPermission();
 			} else {
 				place.returnPermission();
-				next_place.returnPermission();				
+				next_place.returnPermission();
 				break;
 			}
 
@@ -102,7 +104,7 @@ public class Soldier extends Thread {
 		}
 
 	}
-	
+
 	public Castle getTeam() {
 		return team;
 	}
@@ -134,12 +136,12 @@ public class Soldier extends Thread {
 	public void setLive(boolean live) {
 		this.live = live;
 	}
-  
-	public boolean getLive(){
+
+	public boolean getLive() {
 		return this.live;
 	}
-	
-	public int getLevel(){
+
+	public int getLevel() {
 		return this.level;
 	}
 

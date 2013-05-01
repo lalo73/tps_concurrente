@@ -26,7 +26,7 @@ public abstract class Place {
 	 */
 	public Place getNextPlace(Place previous_place) {
 		this.getRoads().remove(previous_place);
-		int x = (int) (Math.random() * (this.getRoads().size()));
+		int x = (int) (Math.random() * (this.getRoads().size() + 1));
 		Place nextPlace = this.getRoads().get(x);
 		this.getRoads().add(previous_place);
 		return nextPlace;
@@ -41,13 +41,6 @@ public abstract class Place {
 	 * 
 	 * @param soldier
 	 */
-	// NO PUEDO CREAR UN THREAD EN UN METODO.. SOLO ME DEJA EN EL MAIN
-	// ME TIRA EL ERROR DE QUE EL THREAD NO CONOCE LOS GETTERS POR EJEMPLO DE LA
-	// CLASE
-	// SIN EMBARGO AGREGE EN STARTBATTLE EL TEMA DE SETEAR LA VARIABLE DE VIDA
-	// Y ENVIO AL CASTILLO EL PERMISO DE CREAR SOLDADO (LO HIZE CON MENSAJES (A
-	// LO OBJETOS))
-	// SI QUERES HACERLO CON CANALES SOLO HAY QUE MODIFICAR UNA BOLUDEZ
 	public abstract void receive(Soldier soldier);
 
 	/**
@@ -55,8 +48,6 @@ public abstract class Place {
 	 * 
 	 * @param soldier
 	 */
-	// TE CREO EL METODO PERO NO ENTIENDO PORQUE LO QUERES
-	// SIMPLEMENTE AL GETTER LE REMOVES EL SOLDADO
 	public void remove(Soldier soldier) {
 		this.getSoldiers().remove(soldier);
 	}
@@ -78,7 +69,7 @@ public abstract class Place {
 			return soldierEnemy;
 		}
 	}
-	
+
 	abstract public void conqueredBy(Soldier soldier);
 
 	/**
@@ -88,9 +79,7 @@ public abstract class Place {
 	 * iteracion. (ver este tema de la batalla) se debe ver el tema de la
 	 * concurrencia.
 	 */
-	// se fija si el soldado muerto era mayor a level 1, si lo era
-	// le envio al castillo un permiso para crear un soldado
-	// HAY QUE AGREGAR LOS METODOS PARA QUE SE VEAN EN LA INTERFAZ
+
 	public void startBattle(Soldier soldierEnemy) {
 		if (this.getSoldiers().isEmpty()) {
 			this.conqueredBy(soldierEnemy);
@@ -148,6 +137,7 @@ public abstract class Place {
 
 	public Place(Channel<String> controlChannel) {
 		this.controlChannel = controlChannel;
+		this.controlChannel.send("");
 	}
 
 }
