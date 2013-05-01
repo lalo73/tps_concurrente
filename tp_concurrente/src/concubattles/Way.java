@@ -22,6 +22,8 @@ public class Way extends Place {
 
 	@Override
 	public void receive(Soldier soldier) {
+		soldier.setPrevious_place(soldier.getMy_place());
+		soldier.setMy_place(this);
 		this.startBattle(soldier);		
 	}
 
