@@ -11,6 +11,7 @@ public class Castle extends City {
 	public void createSoldier() {
 		Soldier x = new Soldier(this,this);
 		this.getSoldiers().add(x);
+		System.out.println(x); //syso!!!!
 		
 		
 	}
