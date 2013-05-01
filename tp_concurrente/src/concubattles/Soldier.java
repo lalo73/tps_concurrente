@@ -77,6 +77,13 @@ public class Soldier extends Thread {
 				next_place.getPermission();
 			}
 			if (this.isLive()) {
+				try {
+					sleep(3000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("Soldado moviendose");
 				place.remove(this);
 				next_place.receive(this);
 				place.returnPermission();

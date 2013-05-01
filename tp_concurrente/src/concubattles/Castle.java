@@ -11,10 +11,10 @@ public class Castle extends Place {
 		this.winner = false;
 	}
 
-	public void createSoldier() {
+	public void createSoldier() {		
 		Soldier x = new Soldier(this, this);
 		this.getSoldiers().add(x);
-		System.out.println(x); 
+		System.out.println("Soldado creado");
 	}
 
 	@Override

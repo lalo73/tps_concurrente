@@ -39,7 +39,8 @@ public class Game {
 		City city2 = game.createCity();
 		game.connect(team1, city1);
 		game.connect(city1, city2);
-		game.connect(city2, team2);			
+		game.connect(city2, team2);
+		
 	}
 
 }
