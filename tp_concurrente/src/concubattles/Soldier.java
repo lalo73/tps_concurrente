@@ -98,7 +98,7 @@ public class Soldier implements Serializable {
 		while (this.live) {
 			Place place = this.getMyPlace();
 			Place next_place = place.getNextPlace(this.previous_place);
-			if (place instanceof City) {
+			if (!(place instanceof Way)) {
 				place.getPermission();
 				next_place.getPermission();
 			} else {

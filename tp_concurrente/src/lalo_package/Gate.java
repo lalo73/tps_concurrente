@@ -16,10 +16,10 @@ public class Gate {
 	}
 	
 	public Place getAnotherPlace(Place excludedPlace){
-		if(!this.placeOne.equals(excludedPlace)){
-			return this.placeOne; 
+		if(this.placeOne.equals(excludedPlace)){
+			return this.placeTwo; 
 		} else {
-			return this.placeTwo;
+			return this.placeOne;
 		}
 	}
 	

@@ -16,6 +16,7 @@ public class Castle extends Place {
 	}
 
 	public void createSoldier() {
+		System.out.println("Soldier created");
 		Soldier soldier = new Soldier(this);
 		this.getSoldiers().add(soldier);
 		soldier.start();

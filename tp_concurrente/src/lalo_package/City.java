@@ -17,6 +17,7 @@ public class City extends Place {
 	
 	@Override
 	public void receive(Soldier soldier){
+		System.out.println("Llego soldado");
 		if (this.getTeam() == soldier.getTeam()) {
 			this.getSoldiers().add(soldier);
 		} else {

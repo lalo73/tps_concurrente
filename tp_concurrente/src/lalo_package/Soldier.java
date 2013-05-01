@@ -64,6 +64,7 @@ public class Soldier extends Thread{
 		return gaming;
 	}
 
+	@Override
 	public void run() {
 		System.out.println("Soldier running");
 		while (this.isLive()) {
