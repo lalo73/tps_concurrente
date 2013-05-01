@@ -19,4 +19,10 @@ public class Way extends Place {
 			return this.getRoads().get(0);
 		}
 	}
+
+	@Override
+	public void receive(Soldier soldier) {
+		this.startBattle(soldier);
+		
+	}
 }

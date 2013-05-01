@@ -52,17 +52,10 @@ public abstract class Place {
 	 * @param previous_place
 	 * @return Place subclass instance
 	 */
-	 // SE ME OCURRIO QUE CUANDO SE CREA UN SOLDADO EN EL CASTILLO, SU LUGAR PREVIO ES EL CASTILLO
-	// ASI NOS AHORRAMOS EL TEMA DE PENSAR QUE PASA SI SU LUGAR PREVIO ES "NULL"
-	// Va a retornar un lugar por medio de random
-	// ELIJO UN NUMERO RANDOM ENTRE EL 0 Y LA LONGITUD DE LA LISTA PLACES (QUE ES LA MISMA LISTA QUE 
-	// LA LISTA QUE POSEE EL LUGAR DE TODOS LOS LUGARES PERO SIN EL LUGAR 
-	// PREVIO DONDE ESTUVO EL SOLDADO.. Y OBTENGO EL LUGAR QUE OCUPA 
-	// EL LUGAR "X" DE MI LISTA Y ESE VA A SER EL PROXIMO LUGAR A MOVERME..
 	public Place getNextPlace(Place previous_place){
-		ArrayList<Place>places = this.getRoads();
-		places.remove(previous_place);
-		int x = (int) (Math.random() * (places.size()));
+		this.getRoads().remove(previous_place);
+		int x = (int) (Math.random() * (this.getRoads().size()));
+		this.getRoads().add(previous_place);
 		return this.getRoads().get(x);
 	}
 
@@ -78,9 +71,7 @@ public abstract class Place {
 	// SIN EMBARGO AGREGE EN STARTBATTLE EL TEMA DE SETEAR LA VARIABLE DE VIDA
 	// Y ENVIO AL CASTILLO EL PERMISO DE CREAR SOLDADO (LO HIZE CON MENSAJES (A LO OBJETOS))
 	// SI QUERES HACERLO CON CANALES SOLO HAY QUE MODIFICAR UNA BOLUDEZ
-	public void receive(Soldier soldier){
-		this.startBattle(soldier);
-	}
+	public abstract void receive(Soldier soldier);
 
 	/**
 	 * Talavez simplemente remueve el soldado de la lista de soldados
