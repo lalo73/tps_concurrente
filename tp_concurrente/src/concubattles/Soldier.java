@@ -16,6 +16,7 @@ public class Soldier extends Thread {
 		this.level = 1;
 		this.experience = 0;
 		this.experienceToNextLevel = 1;
+		this.live = true;
 	}
 
 	public int fibonacci(int e) {

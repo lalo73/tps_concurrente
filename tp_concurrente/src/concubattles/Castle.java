@@ -16,11 +16,13 @@ public class Castle extends Place {
 	public void createSoldier() {		
 		Soldier x = new Soldier(this, this);
 		this.getSoldiers().add(x);
+		x.start();
 		System.out.println("Soldado creado");
 	}
 
 	@Override
 	public void receive(Soldier soldier) {
+		System.out.println("Soldado en castle");
 		soldier.setPrevious_place(soldier.getMy_place());
 		soldier.setMy_place(this);
 		if (!(this == soldier.getTeam())) {
