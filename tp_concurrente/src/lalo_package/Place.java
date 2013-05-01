@@ -120,6 +120,16 @@ public abstract class Place {
 					System.out.println("Soldier killed");
 				}
 				winner.experienceUp();
+				winner.notifyCreateSoldier();
+				Soldier killed;
+				if(winner.equals(soldierEnemy)){
+					killed = soldier;
+				} else {
+					killed = winner; 
+				}
+				if(killed.getLevel() > 1){
+					killed.notifyCreateSoldier();
+				}
 			}
 			if (soldierEnemy.isLive()) {
 				this.conqueredBy(soldierEnemy);

@@ -2,40 +2,14 @@ package concubattles;
 
 import java.util.ArrayList;
 
+import javax.lang.model.element.NestingKind;
+
 import concubattles.Soldier;
 
 public abstract class Place {
 	private Channel<String> controlChannel;
-	private ArrayList<Soldier>soldiers = new ArrayList<Soldier>();
-	private ArrayList<Place>roads = new ArrayList<Place>();
-
-	public ArrayList<Place> getRoads() {
-		return roads;
-	}
-
-	public void setRoads(ArrayList<Place> roads) {
-		this.roads = roads;
-	}
-
-	public Channel<String> getControlChannel() {
-		return controlChannel;
-	}
-
-	public void setControlChannel(Channel<String> controlChannel) {
-		this.controlChannel = controlChannel;
-	}
-
-	public ArrayList<Soldier> getSoldiers() {
-		return this.soldiers;
-	}
-
-	public void setSoldiers(ArrayList<Soldier> soldiers) {
-		this.soldiers = soldiers;
-	}
-
-	public Place(Channel<String> controlChannel) {
-		this.controlChannel = controlChannel;
-	}
+	private ArrayList<Soldier> soldiers = new ArrayList<Soldier>();
+	private ArrayList<Place> roads = new ArrayList<Place>();
 
 	public void getPermission() {
 		this.controlChannel.receive();
@@ -46,40 +20,46 @@ public abstract class Place {
 	}
 
 	/**
-	 * debe retornar el siguiente lugar a donde el soldado puede ir, 
-	 * teniendo en cuenta el lugar previo (puede ser null)
-	 *  
+	 * debe retornar el siguiente lugar a donde el soldado puede ir, teniendo en
+	 * cuenta el lugar previo (puede ser null)
+	 * 
 	 * @param previous_place
 	 * @return Place subclass instance
 	 */
-	public Place getNextPlace(Place previous_place){
+	public Place getNextPlace(Place previous_place) {
 		this.getRoads().remove(previous_place);
 		int x = (int) (Math.random() * (this.getRoads().size()));
+		Place nextPlace = this.getRoads().get(x);
 		this.getRoads().add(previous_place);
-		return this.getRoads().get(x);
+		return nextPlace;
+
 	}
 
 	/**
 	 * La primera version de este metodo debe resolver batallas si las hubiera.
-	 * agregar al soldado a si mismo, etc
-	 * Debe setear el valor de la variable live de soldado en caso de estar muerto.
-	 * TODO: Que lo haga un thread aparte.
+	 * agregar al soldado a si mismo, etc Debe setear el valor de la variable
+	 * live de soldado en caso de estar muerto. TODO: Que lo haga un thread
+	 * aparte.
+	 * 
 	 * @param soldier
 	 */
-	 //  NO PUEDO CREAR UN THREAD EN UN METODO.. SOLO ME DEJA EN EL MAIN
-	// ME TIRA EL ERROR DE QUE EL THREAD NO CONOCE LOS GETTERS POR EJEMPLO DE LA CLASE
+	// NO PUEDO CREAR UN THREAD EN UN METODO.. SOLO ME DEJA EN EL MAIN
+	// ME TIRA EL ERROR DE QUE EL THREAD NO CONOCE LOS GETTERS POR EJEMPLO DE LA
+	// CLASE
 	// SIN EMBARGO AGREGE EN STARTBATTLE EL TEMA DE SETEAR LA VARIABLE DE VIDA
-	// Y ENVIO AL CASTILLO EL PERMISO DE CREAR SOLDADO (LO HIZE CON MENSAJES (A LO OBJETOS))
+	// Y ENVIO AL CASTILLO EL PERMISO DE CREAR SOLDADO (LO HIZE CON MENSAJES (A
+	// LO OBJETOS))
 	// SI QUERES HACERLO CON CANALES SOLO HAY QUE MODIFICAR UNA BOLUDEZ
 	public abstract void receive(Soldier soldier);
 
 	/**
 	 * Talavez simplemente remueve el soldado de la lista de soldados
+	 * 
 	 * @param soldier
 	 */
 	// TE CREO EL METODO PERO NO ENTIENDO PORQUE LO QUERES
 	// SIMPLEMENTE AL GETTER LE REMOVES EL SOLDADO
-	public void remove(Soldier soldier){
+	public void remove(Soldier soldier) {
 		this.getSoldiers().remove(soldier);
 	}
 
@@ -108,10 +88,10 @@ public abstract class Place {
 	 * iteracion. (ver este tema de la batalla) se debe ver el tema de la
 	 * concurrencia.
 	 */
-	 // se fija si el soldado muerto era mayor a level 1, si lo era
-	 // le envio al castillo un permiso para crear un soldado
+	// se fija si el soldado muerto era mayor a level 1, si lo era
+	// le envio al castillo un permiso para crear un soldado
 	// HAY QUE AGREGAR LOS METODOS PARA QUE SE VEAN EN LA INTERFAZ
-	public void startBattle( Soldier soldierEnemy) {
+	public void startBattle(Soldier soldierEnemy) {
 		Soldier x = soldierEnemy;
 		if (this.getSoldiers().isEmpty()) {
 			this.getSoldiers().add(x);
@@ -119,9 +99,10 @@ public abstract class Place {
 			for (Soldier s : this.getSoldiers()) {
 				if (s.equals(this.fight(s, x))) {
 					s.experienceUp();
-					s.getTeam().createSoldier();             // envio de mensaje para crear un soldado
-					x.setLive(false);                        // modificacion del seteo de vida
-					x.checkForLevel();                       // verificacion del soldado
+					s.getTeam().createSoldier(); // envio de mensaje para crear
+													// un soldado
+					x.setLive(false); // modificacion del seteo de vida
+					x.checkForLevel(); // verificacion del soldado
 					break;
 				} else {
 					x.experienceUp();
@@ -132,6 +113,34 @@ public abstract class Place {
 				}
 			}
 		}
-	}	
+	}
+
+	public ArrayList<Place> getRoads() {
+		return roads;
+	}
+
+	public void setRoads(ArrayList<Place> roads) {
+		this.roads = roads;
+	}
+
+	public Channel<String> getControlChannel() {
+		return controlChannel;
+	}
+
+	public void setControlChannel(Channel<String> controlChannel) {
+		this.controlChannel = controlChannel;
+	}
+
+	public ArrayList<Soldier> getSoldiers() {
+		return this.soldiers;
+	}
+
+	public void setSoldiers(ArrayList<Soldier> soldiers) {
+		this.soldiers = soldiers;
+	}
+
+	public Place(Channel<String> controlChannel) {
+		this.controlChannel = controlChannel;
+	}
 
 }
