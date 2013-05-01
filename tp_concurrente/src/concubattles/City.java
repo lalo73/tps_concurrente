@@ -37,6 +37,7 @@ public class City extends Place {
 
 	@Override
 	public void conqueredBy(Soldier soldier) {
+		soldier.notifyCreateSoldier();
 		this.getSoldiers().add(soldier);
 		soldier.setPrevious_place(soldier.getMy_place());
 		soldier.setMy_place(this);
