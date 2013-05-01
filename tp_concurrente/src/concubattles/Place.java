@@ -63,8 +63,8 @@ public abstract class Place {
 	 * @return soldado ganador
 	 */
 	public Soldier fight(Soldier soldier, Soldier soldierEnemy) {
-		int x = (int) (Math.random() * soldier.getLevel());
-		int y = (int) (Math.random() * soldierEnemy.getLevel());
+		int x = soldier.getLevel();//(int) (Math.random() * soldier.getLevel());
+		int y = soldierEnemy.getLevel();//(int) (Math.random() * soldierEnemy.getLevel());
 		if (x < y) {
 			return soldier;
 		} else {
@@ -90,21 +90,23 @@ public abstract class Place {
 				Soldier soldier = this.getSoldiers().get(0);
 				Soldier winner = this.fight(soldier, soldierEnemy);
 				if (winner.equals(soldierEnemy)) {
+					soldier.setLive(false);
 					this.getSoldiers().remove(soldier);
+					System.out.println("Soldier" + soldier.numerito + "killed");
 				} else {
 					soldierEnemy.setLive(false);
-					System.out.println("Soldier killed");
+					System.out.println("Soldier" +soldierEnemy.numerito + "killed");
 				}
 				winner.experienceUp();
-				winner.notifyCreateSoldier();
+			//	winner.notifyCreateSoldier();
 				Soldier killed;
 				if (winner.equals(soldierEnemy)) {
 					killed = soldier;
 				} else {
-					killed = winner;
-				}
+					killed = soldierEnemy;                     // winner denota el ganador
+				}                                             // no puede ser el soldado asesinado
 				if (killed.getLevel() > 1) {
-					killed.notifyCreateSoldier();
+				//	killed.notifyCreateSoldier();
 				}
 			}
 			if (soldierEnemy.isLive()) {

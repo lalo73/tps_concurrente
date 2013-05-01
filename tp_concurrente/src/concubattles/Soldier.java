@@ -13,7 +13,7 @@ public class Soldier extends Thread {
 	public Soldier(Place my_place, Castle team, int numerito) {
 		this.my_place = my_place;
 		this.team = team;
-		this.level = 1;
+		this.level = 2;
 		this.experience = 0;
 		this.experienceToNextLevel = 1;
 		this.live = true;
@@ -66,7 +66,9 @@ public class Soldier extends Thread {
 		}
 
 	}
-
+/**
+ * 
+ */
 	public void run() {
 		while (this.live) {
 			Place place = this.getMyPlace();
@@ -80,7 +82,7 @@ public class Soldier extends Thread {
 			}
 			if (this.isLive()) {
 				try {
-					sleep(3000);
+					sleep(0000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -13,10 +13,7 @@ public class City extends Place {
 		this.team = team;
 	}
 
-	// NO SE SI ESTA COPADO QUE CASTILLO HEREDE DE CITY.. YA QUE LA CIUDAD
-	// TENDRIA QUE TENER
-	// UN EQUIPO OCUPANTE (PARA PODER IR CAMBIANDOLO. EL CUAL SI CASTILLO LO
-	// HEREDA SE HEREDA A SI MISMO
+	
 	public City(Channel<String> controlChannel) {
 		super(controlChannel);
 		// TODO Auto-generated constructor stub
@@ -24,9 +21,9 @@ public class City extends Place {
 
 	@Override
 	public void receive(Soldier soldier) {
-		System.out.println("Soldado" +soldier.numerito + "en ciudad");
-		soldier.setPrevious_place(soldier.getMy_place());
-		soldier.setMy_place(this);
+//		System.out.println("Soldado" +soldier.numerito + "en ciudad");
+//		soldier.setPrevious_place(soldier.getMy_place());
+//		soldier.setMy_place(this);
 		if (!(this.getTeam() == soldier.getTeam())) {
 			this.startBattle(soldier);
 		} else {
@@ -37,10 +34,11 @@ public class City extends Place {
 
 	@Override
 	public void conqueredBy(Soldier soldier) {
-		soldier.notifyCreateSoldier();
+		//soldier.notifyCreateSoldier();
 		this.getSoldiers().add(soldier);
 		soldier.setPrevious_place(soldier.getMy_place());
 		soldier.setMy_place(this);
+		System.out.println("Soldado" +soldier.numerito + "en ciudad");
 		this.setTeam(soldier.getTeam());
 	}
 
