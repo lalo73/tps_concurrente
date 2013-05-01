@@ -22,13 +22,11 @@ public class Way extends Place {
 
 	@Override
 	public void receive(Soldier soldier) {
-		this.startBattle(soldier);
-		
+		this.startBattle(soldier);		
 	}
 
 	@Override
 	public void conqueredBy(Soldier soldier) {
-		// TODO Auto-generated method stub
-		
+		this.getSoldiers().add(soldier);
 	}
 }

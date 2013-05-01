@@ -1,7 +1,5 @@
 package concubattles;
 
-import javax.management.RuntimeErrorException;
-
 public class City extends Place {
       private Castle team;
       
@@ -35,15 +33,11 @@ public class City extends Place {
 	}
 
 	@Override
-	public void remove(Soldier soldier) {
-		throw new RuntimeErrorException(null, "");
-	}
-
-	@Override
 	public void conqueredBy(Soldier soldier) {
 		this.getSoldiers().add(soldier);			
 		soldier.setPrevious_place(soldier.getMy_place());
-		soldier.setMy_place(this);			
+		soldier.setMy_place(this);		
+		this.setTeam(soldier.getTeam());
 	}
 
 }
