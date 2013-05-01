@@ -2,8 +2,8 @@ package concubattles;
 
 public class Castle extends Place {
 	
-	private boolean live;
-	private boolean winner;
+	 boolean live;
+	 boolean winner;
    
 	public Castle(Channel<String> controlChannel) {
 		super(controlChannel);
