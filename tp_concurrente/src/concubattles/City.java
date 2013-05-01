@@ -1,5 +1,7 @@
 package concubattles;
 
+import ar.edu.unq.tpi.pconc.Channel;
+
 public class City extends Place {
 	private Castle team;
 

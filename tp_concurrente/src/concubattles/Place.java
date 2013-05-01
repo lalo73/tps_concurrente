@@ -2,6 +2,8 @@ package concubattles;
 
 import java.util.ArrayList;
 
+import ar.edu.unq.tpi.pconc.Channel;
+
 import concubattles.Soldier;
 
 public abstract class Place {

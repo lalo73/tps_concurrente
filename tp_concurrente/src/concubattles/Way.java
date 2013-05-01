@@ -1,5 +1,7 @@
 package concubattles;
 
+import ar.edu.unq.tpi.pconc.Channel;
+
 public class Way extends Place {
 
 	public Way(Channel<String> controlChannel) {
