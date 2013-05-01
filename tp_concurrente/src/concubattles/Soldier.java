@@ -1,10 +1,7 @@
 package concubattles;
 
-import java.io.Serializable;
-
-public class Soldier implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Soldier extends Thread {
+	
 	private Castle team;
 	private int level;
 	private int experience;
