@@ -33,6 +33,7 @@ public class Castle extends Place {
 
 	@Override
 	public void receive(Soldier soldier){
+		System.out.println("LLego al castillo");
 		if (this.equals(soldier.getTeam())) {
 			this.getSoldiers().add(soldier);
 		} else {

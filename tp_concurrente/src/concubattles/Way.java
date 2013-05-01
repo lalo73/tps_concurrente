@@ -25,4 +25,10 @@ public class Way extends Place {
 		this.startBattle(soldier);
 		
 	}
+
+	@Override
+	public void conqueredBy(Soldier soldier) {
+		// TODO Auto-generated method stub
+		
+	}
 }

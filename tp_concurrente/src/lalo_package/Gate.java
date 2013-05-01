@@ -26,6 +26,8 @@ public class Gate {
 	public void takeAwayFrom(Soldier soldier, Place place){
 		Place anotherPlace = this.getAnotherPlace(place);
 		place.remove(soldier);
+		soldier.setPreviousPlace(soldier.getCurrentPlace());
+		soldier.setCurrentPlace(anotherPlace);
 		anotherPlace.receive(soldier);
 	}
 	

@@ -1,5 +1,7 @@
 package concubattles;
 
+import javax.management.RuntimeErrorException;
+
 public class City extends Place {
       private Castle team;
       
@@ -22,21 +24,28 @@ public class City extends Place {
 
 	@Override
 	public void receive(Soldier soldier) {
-		if ( ! (this.getTeam().equals(soldier.getTeam()))){
+		if (!(this.getTeam() == soldier.getTeam())){
 			this.startBattle(soldier);
 			if (soldier.getLive()){
 				this.setTeam(soldier.getTeam());
 			}
 		}else {
-			this.getSoldiers().add(soldier);
+			this.getSoldiers().add(soldier);			
+			soldier.setPrevious_place(soldier.getMy_place());
+			soldier.setMy_place(this);			
 		}
 
 	}
 
 	@Override
 	public void remove(Soldier soldier) {
-		// TODO Auto-generated method stub
+		throw new RuntimeErrorException(null, "");
+	}
 
+	@Override
+	public void conqueredBy(Soldier soldier) {
+		throw new RuntimeErrorException(null, "");
+		
 	}
 
 }

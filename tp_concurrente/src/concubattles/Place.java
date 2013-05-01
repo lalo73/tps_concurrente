@@ -80,6 +80,8 @@ public abstract class Place {
 			return soldierEnemy;
 		}
 	}
+	
+	abstract public void conqueredBy(Soldier soldier);
 
 	/**
 	 * Llega un soldado enemigo.. Si este le gana a todos los soldados enemigos,
@@ -92,25 +94,32 @@ public abstract class Place {
 	// le envio al castillo un permiso para crear un soldado
 	// HAY QUE AGREGAR LOS METODOS PARA QUE SE VEAN EN LA INTERFAZ
 	public void startBattle(Soldier soldierEnemy) {
-		Soldier x = soldierEnemy;
 		if (this.getSoldiers().isEmpty()) {
-			this.getSoldiers().add(x);
+			this.conqueredBy(soldierEnemy);
 		} else {
-			for (Soldier s : this.getSoldiers()) {
-				if (s.equals(this.fight(s, x))) {
-					s.experienceUp();
-					s.getTeam().createSoldier(); // envio de mensaje para crear
-													// un soldado
-					x.setLive(false); // modificacion del seteo de vida
-					x.checkForLevel(); // verificacion del soldado
-					break;
+			while (soldierEnemy.isLive() && !this.getSoldiers().isEmpty()) {
+				Soldier soldier = this.getSoldiers().get(0);
+				Soldier winner = this.fight(soldier, soldierEnemy);
+				if (winner.equals(soldierEnemy)) {
+					this.getSoldiers().remove(soldier);
 				} else {
-					x.experienceUp();
-					x.getTeam().createSoldier();
-					s.checkForLevel();
-					s.setLive(false);
-					this.getSoldiers().remove(s);
+					soldierEnemy.setLive(false);
+					System.out.println("Soldier killed");
 				}
+				winner.experienceUp();
+				winner.notifyCreateSoldier();
+				Soldier killed;
+				if (winner.equals(soldierEnemy)) {
+					killed = soldier;
+				} else {
+					killed = winner;
+				}
+				if (killed.getLevel() > 1) {
+					killed.notifyCreateSoldier();
+				}
+			}
+			if (soldierEnemy.isLive()) {
+				this.conqueredBy(soldierEnemy);
 			}
 		}
 	}

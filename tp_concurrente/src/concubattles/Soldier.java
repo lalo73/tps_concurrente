@@ -10,46 +10,6 @@ public class Soldier extends Thread {
 	private Place previous_place;
 	private boolean live;
 
-	public Castle getTeam() {
-		return team;
-	}
-
-	public void setTeam(Castle team) {
-		this.team = team;
-	}
-
-	public Place getMy_place() {
-		return my_place;
-	}
-
-	public void setMy_place(Place my_place) {
-		this.my_place = my_place;
-	}
-
-	public Place getPrevious_place() {
-		return previous_place;
-	}
-
-	public void setPrevious_place(Place previous_place) {
-		this.previous_place = previous_place;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
-	public void setLive(boolean live) {
-		this.live = live;
-	}
-  
-	public boolean getLive(){
-		return this.live;
-	}
-	
-	public int getLevel(){
-		return this.level;
-	}
-
 	public Soldier(Place my_place, Castle team) {
 		this.my_place = my_place;
 		this.team = team;
@@ -91,25 +51,30 @@ public class Soldier extends Thread {
     		this.getTeam().createSoldier();
     	}
     }
+    
+    public void notifyCreateSoldier(){
+    	this.getTeam().createSoldier()    	;
+    	
+    }
 	public void run() {
 		while (this.live) {
 			Place place = this.getMyPlace();
 			Place next_place = place.getNextPlace(this.previous_place);
-			if (!(place instanceof Way)) {
-				place.getPermission();
-				next_place.getPermission();
-			} else {
+			if (place instanceof Way) {
 				next_place.getPermission();
 				place.getPermission();
+			} else {				
+				place.getPermission();
+				next_place.getPermission();
 			}
 			if (this.isLive()) {
+				place.remove(this);				
 				next_place.receive(this);
-				place.remove(this);
-				next_place.returnPermission();
-				place.returnPermission();				
-			} else {
-				next_place.returnPermission();
 				place.returnPermission();
+				next_place.returnPermission();											
+			} else {
+				place.returnPermission();
+				next_place.returnPermission();				
 				break;
 			}
 
@@ -129,6 +94,46 @@ public class Soldier extends Thread {
 			this.experience = 0;
 		}
 
+	}
+	
+	public Castle getTeam() {
+		return team;
+	}
+
+	public void setTeam(Castle team) {
+		this.team = team;
+	}
+
+	public Place getMy_place() {
+		return my_place;
+	}
+
+	public void setMy_place(Place my_place) {
+		this.my_place = my_place;
+	}
+
+	public Place getPrevious_place() {
+		return previous_place;
+	}
+
+	public void setPrevious_place(Place previous_place) {
+		this.previous_place = previous_place;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public void setLive(boolean live) {
+		this.live = live;
+	}
+  
+	public boolean getLive(){
+		return this.live;
+	}
+	
+	public int getLevel(){
+		return this.level;
 	}
 
 }

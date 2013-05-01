@@ -122,12 +122,12 @@ public abstract class Place {
 				winner.experienceUp();
 				winner.notifyCreateSoldier();
 				Soldier killed;
-				if(winner.equals(soldierEnemy)){
+				if (winner.equals(soldierEnemy)) {
 					killed = soldier;
 				} else {
-					killed = winner; 
+					killed = winner;
 				}
-				if(killed.getLevel() > 1){
+				if (killed.getLevel() > 1) {
 					killed.notifyCreateSoldier();
 				}
 			}
