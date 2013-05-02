@@ -22,7 +22,7 @@ public class City extends Place {
 	@Override
 	public void receive(Soldier soldier) {
 //		System.out.println(soldier.toString() + " en ciudad");
-//		soldier.setPrevious_place(soldier.getMy_place());
+		soldier.setPrevious_place(soldier.getMy_place());
 		soldier.setMy_place(this);
 		if (!(this.getTeam() == soldier.getTeam())) {
 			this.startBattle(soldier);

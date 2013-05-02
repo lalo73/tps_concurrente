@@ -111,7 +111,7 @@ public abstract class Place {
 					killed = soldierEnemy;                     // winner denota el ganador
 				}                                             // no puede ser el soldado asesinado
 				if (killed.getLevel() > 1) {
-				//	killed.notifyCreateSoldier();
+					killed.notifyCreateSoldier();
 				}
 			}
 			if (soldierEnemy.isLive()) {
