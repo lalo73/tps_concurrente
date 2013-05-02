@@ -21,12 +21,12 @@ public class City extends Place {
 
 	@Override
 	public void receive(Soldier soldier) {
-//		System.out.println("Soldado" +soldier.numerito + "en ciudad");
-//		soldier.setPrevious_place(soldier.getMy_place());
-//		soldier.setMy_place(this);
 		if (!(this.getTeam() == soldier.getTeam())) {
 			this.startBattle(soldier);
 		} else {
+			System.out.println("Soldado" +soldier.numerito + "en ciudad");   
+			soldier.setPrevious_place(soldier.getMy_place());
+			soldier.setMy_place(this);
 			this.getSoldiers().add(soldier);
 		}
 
@@ -34,7 +34,7 @@ public class City extends Place {
 
 	@Override
 	public void conqueredBy(Soldier soldier) {
-		//soldier.notifyCreateSoldier();
+		soldier.notifyCreateSoldier();
 		this.getSoldiers().add(soldier);
 		soldier.setPrevious_place(soldier.getMy_place());
 		soldier.setMy_place(this);

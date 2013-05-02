@@ -56,8 +56,7 @@ public class Soldier extends Thread {
 	}
 
 	public void notifyCreateSoldier() {
-		if (this.getMy_place() == this.getTeam()
-				|| this.getPrevious_place() == this.getTeam()) {
+		if (this.getMy_place() == this.getTeam() || this.getPrevious_place() == this.getTeam()) {
 			this.getTeam().createSoldier(this.numerito);
 		} else {
 			this.getTeam().getPermission();

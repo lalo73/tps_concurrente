@@ -63,8 +63,8 @@ public abstract class Place {
 	 * @return soldado ganador
 	 */
 	public Soldier fight(Soldier soldier, Soldier soldierEnemy) {
-		int x = soldier.getLevel();//(int) (Math.random() * soldier.getLevel());
-		int y = soldierEnemy.getLevel();//(int) (Math.random() * soldierEnemy.getLevel());
+		int x = (int) (Math.random() * soldier.getLevel());
+		int y = (int) (Math.random() * soldierEnemy.getLevel());
 		if (x < y) {
 			return soldier;
 		} else {
