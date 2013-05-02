@@ -20,13 +20,10 @@ public class Way extends Place {
 
 	@Override
 	public void receive(Soldier soldier) {
-//		System.out.println("Soldado en way");
 		soldier.setPrevious_place(soldier.getMy_place());
 		soldier.setMy_place(this);
 		this.startBattle(soldier);
 		System.out.println(soldier.toString() + " en way");
-//		this.getSoldiers().get(0).setPrevious_place(this.getSoldiers().get(0).getMy_place());
-//		this.getSoldiers().get(0).setMy_place(this);
 	}
 
 	@Override
