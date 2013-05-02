@@ -97,13 +97,13 @@ public abstract class Place {
 				if (winner.equals(soldierEnemy)) {
 					soldier.setLive(false);
 					this.getSoldiers().remove(soldier);
-					System.out.println("Soldier" + soldier.numerito + "killed");
+					System.out.println(soldier.toString() + " killed");
 				} else {
 					soldierEnemy.setLive(false);
-					System.out.println("Soldier" +soldierEnemy.numerito + "killed");
+					System.out.println(soldierEnemy.toString() + " invasor killed");
 				}
 				winner.experienceUp();
-			//	winner.notifyCreateSoldier();
+				winner.notifyCreateSoldier();
 				Soldier killed;
 				if (winner.equals(soldierEnemy)) {
 					killed = soldier;

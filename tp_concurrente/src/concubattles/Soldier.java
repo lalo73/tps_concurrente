@@ -9,6 +9,11 @@ public class Soldier extends Thread {
 	private Place my_place;
 	private Place previous_place;
 	private boolean live;
+	
+	@Override
+	public String toString(){
+		return "Soldier: " + this.numerito + " of team: " + this.getTeam().castleID;
+	}
 
 	public Soldier(Place my_place, Castle team, int numerito) {
 		this.my_place = my_place;
@@ -88,8 +93,7 @@ public class Soldier extends Thread {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("Soldado" + this.numerito + " "
-						+ this.getTeam().castleID + " " + " moviendose");
+				System.out.println(this.toString() + " moviendose");
 				place.remove(this);
 				next_place.receive(this);
 				place.returnPermission();
