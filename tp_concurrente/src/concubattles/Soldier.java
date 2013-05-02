@@ -18,9 +18,9 @@ public class Soldier extends Thread {
 	public Soldier(Place my_place, Castle team, int numerito) {
 		this.my_place = my_place;
 		this.team = team;
-		this.level = 2;
+		this.level = 1;
 		this.experience = 0;
-		this.experienceToNextLevel = 1;
+		this.experienceToNextLevel = 2;
 		this.live = true;
 		this.numerito = numerito;
 	}
@@ -61,8 +61,8 @@ public class Soldier extends Thread {
 	}
 
 	public void notifyCreateSoldier() {
-		if (this.getMy_place() == this.getTeam() || this.getPrevious_place() == this.getTeam()) {
-			this.getTeam().createSoldier();
+//		if (this.getMy_place() == this.getTeam() || this.getPrevious_place() == this.getTeam()) {
+//			this.getTeam().createSoldier();
 		if (this.getMy_place() == this.getTeam()
 				|| this.getPrevious_place() == this.getTeam()) {
 			this.getTeam().createSoldier();
@@ -71,7 +71,7 @@ public class Soldier extends Thread {
 			this.getTeam().createSoldier();
 			this.getTeam().returnPermission(); }
 	    }
-	}
+//	}
 
 	/**
  * 
