@@ -1,7 +1,7 @@
 package concubattles;
 
 public class Soldier extends Thread {
-    int numerito;
+	int numerito;
 	private Castle team;
 	private int level;
 	private int experience;
@@ -9,6 +9,11 @@ public class Soldier extends Thread {
 	private Place my_place;
 	private Place previous_place;
 	private boolean live;
+	
+	@Override
+	public String toString(){
+		return "Soldier: " + this.numerito + " of team: " + this.getTeam().castleID;
+	}
 
 	public Soldier(Place my_place, Castle team, int numerito) {
 		this.my_place = my_place;
@@ -51,21 +56,24 @@ public class Soldier extends Thread {
 
 	public void checkForLevel() {
 		if (this.getLevel() > 1) {
-			this.getTeam().createSoldier(this.numerito);
+			this.getTeam().createSoldier();
 		}
 	}
 
 	public void notifyCreateSoldier() {
 		if (this.getMy_place() == this.getTeam() || this.getPrevious_place() == this.getTeam()) {
-			this.getTeam().createSoldier(this.numerito);
+			this.getTeam().createSoldier();
+		if (this.getMy_place() == this.getTeam()
+				|| this.getPrevious_place() == this.getTeam()) {
+			this.getTeam().createSoldier();
 		} else {
 			this.getTeam().getPermission();
-			this.getTeam().createSoldier(this.numerito);
-			this.getTeam().returnPermission();
-		}
-
+			this.getTeam().createSoldier();
+			this.getTeam().returnPermission(); }
+	    }
 	}
-/**
+
+	/**
  * 
  */
 	public void run() {
@@ -79,14 +87,14 @@ public class Soldier extends Thread {
 				place.getPermission();
 				next_place.getPermission();
 			}
-			if (this.isLive()) {
+			if (this.isLive() && this.getTeam().live) {
 				try {
-					sleep(0000);
+					sleep(5000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("Soldado" + this.numerito + "moviendose");
+				System.out.println(this.toString() + " moviendose");
 				place.remove(this);
 				next_place.receive(this);
 				place.returnPermission();

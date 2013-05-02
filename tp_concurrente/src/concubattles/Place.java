@@ -27,11 +27,16 @@ public abstract class Place {
 	 * @return Place subclass instance
 	 */
 	public Place getNextPlace(Place previous_place) {
-		this.getRoads().remove(previous_place);
-		int x = (int) (Math.random() * (this.getRoads().size()));
-		Place nextPlace = this.getRoads().get(x);
-		this.getRoads().add(previous_place);
-		return nextPlace;
+		if(this.getRoads().size() == 1){
+			return this.getRoads().get(0);
+		}else{
+			this.getRoads().remove(previous_place);
+			int x = (int) (Math.random() * (this.getRoads().size()));
+			Place nextPlace = this.getRoads().get(x);
+			this.getRoads().add(previous_place);
+			return nextPlace;
+		}
+		
 
 	}
 
@@ -65,7 +70,7 @@ public abstract class Place {
 	public Soldier fight(Soldier soldier, Soldier soldierEnemy) {
 		int x = (int) (Math.random() * soldier.getLevel());
 		int y = (int) (Math.random() * soldierEnemy.getLevel());
-		if (x < y) {
+		if (x > y) {
 			return soldier;
 		} else {
 			return soldierEnemy;
@@ -92,13 +97,13 @@ public abstract class Place {
 				if (winner.equals(soldierEnemy)) {
 					soldier.setLive(false);
 					this.getSoldiers().remove(soldier);
-					System.out.println("Soldier" + soldier.numerito + "killed");
+					System.out.println(soldier.toString() + " killed");
 				} else {
 					soldierEnemy.setLive(false);
-					System.out.println("Soldier" +soldierEnemy.numerito + "killed");
+					System.out.println(soldierEnemy.toString() + " invasor killed");
 				}
 				winner.experienceUp();
-			//	winner.notifyCreateSoldier();
+				winner.notifyCreateSoldier();
 				Soldier killed;
 				if (winner.equals(soldierEnemy)) {
 					killed = soldier;
