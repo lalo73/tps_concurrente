@@ -10,6 +10,7 @@ public abstract class Place {
 	private Channel<String> controlChannel;
 	private ArrayList<Soldier> soldiers = new ArrayList<Soldier>();
 	private ArrayList<Place> roads = new ArrayList<Place>();
+	public int id;
 
 	public void getPermission() {
 		this.controlChannel.receive();
@@ -154,9 +155,10 @@ public abstract class Place {
 		this.soldiers = soldiers;
 	}
 
-	public Place(Channel<String> controlChannel) {
+	public Place(Channel<String> controlChannel, int id) {
 		this.controlChannel = controlChannel;
 		this.controlChannel.send("");
+		this.id = id;
 	}
 
 }

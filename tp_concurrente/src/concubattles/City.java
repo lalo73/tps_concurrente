@@ -3,7 +3,7 @@ package concubattles;
 import ar.edu.unq.tpi.pconc.Channel;
 
 public class City extends Place {
-	private Castle team;
+	private Castle team;	
 
 	public Castle getTeam() {
 		return team;
@@ -14,8 +14,8 @@ public class City extends Place {
 	}
 
 	
-	public City(Channel<String> controlChannel) {
-		super(controlChannel);
+	public City(Channel<String> controlChannel, int cityID) {
+		super(controlChannel, cityID);		
 		// TODO Auto-generated constructor stub
 	}
 

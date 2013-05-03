@@ -4,8 +4,8 @@ import ar.edu.unq.tpi.pconc.Channel;
 
 public class Way extends Place {
 
-	public Way(Channel<String> controlChannel) {
-		super(controlChannel);
+	public Way(Channel<String> controlChannel, int id) {
+		super(controlChannel,id);
 
 	}
 

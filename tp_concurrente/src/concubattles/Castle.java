@@ -6,20 +6,18 @@ public class Castle extends Place {
 
 	boolean live;
 	boolean winner;
-	int count;
-	int castleID;
+	int count;	
 
 	@Override
 	public String toString() {
-		return "Castle of team: " + this.castleID;
+		return "Castle of team: " + this.id;
 	}
 
 	public Castle(Channel<String> controlChannel, int castleID) {
-		super(controlChannel);
+		super(controlChannel, castleID);
 		this.live = true;
 		this.winner = false;
-		this.count = 0;
-		this.castleID = castleID;
+		this.count = 0;		
 	}
 
 	public int getNextSoldierID() {

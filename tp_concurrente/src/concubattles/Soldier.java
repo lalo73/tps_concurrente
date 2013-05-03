@@ -12,7 +12,7 @@ public class Soldier extends Thread {
 	
 	@Override
 	public String toString(){
-		return "Soldier: " + this.numerito + " of team: " + this.getTeam().castleID;
+		return "Soldier: " + this.numerito + " of team: " + this.getTeam().id;
 	}
 
 	public Soldier(Place my_place, Castle team, int numerito) {
