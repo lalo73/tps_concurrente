@@ -53,7 +53,7 @@ public class Game {
 	}
 	
 	public Castle createCastle(int castleID){
-		System.out.println("Castillo creado con id: "+castleID);
+		System.out.println("Castle created with Id : "+castleID);
 		this.ensureID(castleID);
 		Castle castle =  new Castle(new Channel<String>(this.getNextChannelID()), castleID);
 		this.places.add(castle);
@@ -158,8 +158,8 @@ public class Game {
 		
 		game.createMap();
 		game.startGame();
-//		game.output.send("silver0 1");
-//		game.output.send("golden0 5");
+		game.output.send("silver0 1");
+		game.output.send("golden0 5");
 
 	}
 
