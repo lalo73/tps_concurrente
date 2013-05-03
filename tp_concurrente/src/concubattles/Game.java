@@ -159,15 +159,9 @@ public class Game {
 		
 		game.createMap();
 		game.startGame();
-//		Castle team1 = game.createCastle();
-//		Castle team2 = game.createCastle();
-//		City city1 = game.createCity();
-//		City city2 = game.createCity();
-//		game.connect(team1, city1);
-//		game.connect(city1, city2);
-//		game.connect(city2, team2);
-//		team1.createSoldier();
-//		team2.createSoldier();
+//		game.output.send("silver0 1");
+//		game.output.send("silver1 5");
+
 	}
 
 }
