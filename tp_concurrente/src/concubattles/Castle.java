@@ -10,7 +10,7 @@ public class Castle extends Place {
 
 	@Override
 	public String toString() {
-		return "Castle of team: " + this.id;
+		return "Castle of team: " + this.game.getColorSoldier(this);
 	}
 
 	public Castle(Channel<String> controlChannel, int castleID, Game game) {

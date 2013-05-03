@@ -12,7 +12,8 @@ public class Soldier extends Thread {
 
 	@Override
 	public String toString() {
-		return "Soldier: " + this.numerito + " of team: " + this.getTeam().id;
+		return "Soldier: " + this.numerito + " of team "
+				+ this.getTeam().game.getColorSoldier(this.getTeam());
 	}
 
 	public Soldier(Place my_place, Castle team, int numerito) {
@@ -89,16 +90,16 @@ public class Soldier extends Thread {
 		while (this.live) {
 			Place place = this.getMyPlace();
 			Place next_place = place.getNextPlace(this.previous_place);
-			
-				if (place instanceof Way) {					
-					this.getP(next_place);
-					this.getP(place);
-				} else {
-					this.getP(place);
-					this.getP(next_place);
-					
-				}
-			
+
+			if (place instanceof Way) {
+				this.getP(next_place);
+				this.getP(place);
+			} else {
+				this.getP(place);
+				this.getP(next_place);
+
+			}
+
 			if (this.isLive() && this.getTeam().live) {
 				System.out.println(this.toString() + " Moving On");
 				place.remove(this);
@@ -106,7 +107,7 @@ public class Soldier extends Thread {
 				place.returnPermission();
 				next_place.returnPermission();
 				try {
-					sleep(0000);
+					sleep(3000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -119,14 +120,15 @@ public class Soldier extends Thread {
 
 		}
 	}
-		public void getP(Place place){
-//			try{
-//				place.getPermission();	
-//			} catch(RuntimeException e){
-				place.getPermission();
-//			}
-			
-		}
+
+	public void getP(Place place) {
+		// try{
+		// place.getPermission();
+		// } catch(RuntimeException e){
+		place.getPermission();
+		// }
+
+	}
 
 	/**
 	 * funcion Fibonacci para la experiencia cada soldado gana 1 de experiencia
