@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: Buoy.jar Channel.jar
-Main-Class: ar.edu.unq.tpi.concurbattles.ConcurBattles
-
