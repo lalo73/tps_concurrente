@@ -29,17 +29,14 @@ public abstract class Place {
 	 * @return Place subclass instance
 	 */
 	public Place getNextPlace(Place previous_place) {
-		if(this.getRoads().size() == 1){
+		if (this.getRoads().size() == 1) {
 			return this.getRoads().get(0);
-		}else{
-			this.getRoads().remove(previous_place);
-			int x = (int) (Math.random() * (this.getRoads().size()));
-			Place nextPlace = this.getRoads().get(x);
-			this.getRoads().add(previous_place);
-			return nextPlace;
 		}
-		
-
+		this.getRoads().remove(previous_place);
+		int x = (int) (Math.random() * (this.getRoads().size()));
+		Place nextPlace = this.getRoads().get(x);
+		this.getRoads().add(previous_place);
+		return nextPlace;
 	}
 
 	/**
@@ -70,16 +67,16 @@ public abstract class Place {
 	 * @return soldado ganador
 	 */
 	public Soldier fight(Soldier soldier, Soldier soldierEnemy) {
-//		double x = soldierEnemy.getLevel();
-//		double y = soldier.getLevel();
-//		double provabilidad = x/(x+y);
-//		double random = Math.random();
-//		if(provabilidad > random){
-//			return soldierEnemy;
-//		}else{
-//			return soldier;
-//		}
-		
+		// double x = soldierEnemy.getLevel();
+		// double y = soldier.getLevel();
+		// double provabilidad = x/(x+y);
+		// double random = Math.random();
+		// if(provabilidad > random){
+		// return soldierEnemy;
+		// }else{
+		// return soldier;
+		// }
+
 		int x = (int) (Math.random() * soldier.getLevel());
 		int y = (int) (Math.random() * soldierEnemy.getLevel());
 		if (x > y) {
@@ -112,7 +109,8 @@ public abstract class Place {
 					System.out.println(soldier.toString() + " killed");
 				} else {
 					soldierEnemy.setLive(false);
-					System.out.println(soldierEnemy.toString() + " Invader killed");
+					System.out.println(soldierEnemy.toString()
+							+ " Invader killed");
 				}
 				winner.experienceUp();
 				winner.notifyCreateSoldier();
@@ -120,8 +118,8 @@ public abstract class Place {
 				if (winner.equals(soldierEnemy)) {
 					killed = soldier;
 				} else {
-					killed = soldierEnemy;                     // winner denota el ganador
-				}                                             // no puede ser el soldado asesinado
+					killed = soldierEnemy; // winner denota el ganador
+				} // no puede ser el soldado asesinado
 				if (killed.getLevel() > 1) {
 					killed.notifyCreateSoldier();
 				}

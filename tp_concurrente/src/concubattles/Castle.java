@@ -6,7 +6,7 @@ public class Castle extends Place {
 
 	boolean live;
 	boolean winner;
-	int count;	
+	int count;
 
 	@Override
 	public String toString() {
@@ -17,7 +17,7 @@ public class Castle extends Place {
 		super(controlChannel, castleID, game);
 		this.live = true;
 		this.winner = false;
-		this.count = 0;		
+		this.count = 0;
 	}
 
 	public int getNextSoldierID() {
@@ -27,11 +27,13 @@ public class Castle extends Place {
 	}
 
 	public void createSoldier() {
-		Soldier x = new Soldier(this, this, this.getNextSoldierID());
-		this.getSoldiers().add(x);
-		x.start();
-		this.game.addSoldier(x);
-		System.out.println(x.toString() + " Created");
+		if (this.live) {
+			Soldier x = new Soldier(this, this, this.getNextSoldierID());
+			this.getSoldiers().add(x);
+			x.start();
+			this.game.addSoldier(x);
+			System.out.println(x.toString() + " Created");
+		}
 	}
 
 	@Override
@@ -39,7 +41,7 @@ public class Castle extends Place {
 		System.out.println(soldier.toString() + " In Castle");
 		soldier.setPrevious_place(soldier.getMy_place());
 		soldier.setMy_place(this);
-		this.game.putSoldier(soldier,this);
+		this.game.putSoldier(soldier, this);
 		if (!(this == soldier.getTeam())) {
 			this.startBattle(soldier);
 		} else {
