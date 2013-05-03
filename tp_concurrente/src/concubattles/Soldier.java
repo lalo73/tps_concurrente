@@ -123,7 +123,7 @@ public class Soldier extends Thread {
 			try{
 				place.getPermission();	
 			} catch(RuntimeException e){
-				
+				place.getPermission();
 			}
 			
 		}
