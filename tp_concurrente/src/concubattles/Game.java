@@ -44,11 +44,16 @@ public class Game {
 		System.out.println(this.input.receive());
 	}
 	
+	public void moveSilver(int i){
+		this.output.send("silver1 1");
+	}
+	
 	public static void main(String[] args) {
 		
 		Game game = new Game(new Channel<String>(1002), new Channel<String>(1001));
 		
 		game.receive();
+		game.moveSilver(0);
 //		Castle team1 = game.createCastle();
 //		Castle team2 = game.createCastle();
 //		City city1 = game.createCity();
