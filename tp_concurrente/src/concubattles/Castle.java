@@ -39,6 +39,7 @@ public class Castle extends Place {
 		System.out.println(soldier.toString() + " In Castle");
 		soldier.setPrevious_place(soldier.getMy_place());
 		soldier.setMy_place(this);
+		this.game.putSoldier(soldier,this);
 		if (!(this == soldier.getTeam())) {
 			this.startBattle(soldier);
 		} else {

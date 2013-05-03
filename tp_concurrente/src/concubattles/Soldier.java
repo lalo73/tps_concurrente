@@ -9,9 +9,9 @@ public class Soldier extends Thread {
 	private Place my_place;
 	private Place previous_place;
 	private boolean live;
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return "Soldier: " + this.numerito + " of team: " + this.getTeam().id;
 	}
 
@@ -61,17 +61,20 @@ public class Soldier extends Thread {
 	}
 
 	public void notifyCreateSoldier() {
-//		if (this.getMy_place() == this.getTeam() || this.getPrevious_place() == this.getTeam()) {
-//			this.getTeam().createSoldier();
+		// if (this.getMy_place() == this.getTeam() || this.getPrevious_place()
+		// == this.getTeam()) {
+		// this.getTeam().createSoldier();
 		if (this.getMy_place() == this.getTeam()
 				|| this.getPrevious_place() == this.getTeam()) {
 			this.getTeam().createSoldier();
 		} else {
-			this.getTeam().getPermission();
+			this.getP(this.getTeam());
 			this.getTeam().createSoldier();
-			this.getTeam().returnPermission(); }
-	    }
-//	}
+			this.getTeam().returnPermission();
+		}
+	}
+
+	// }
 
 	/**
  * 
@@ -86,14 +89,17 @@ public class Soldier extends Thread {
 		while (this.live) {
 			Place place = this.getMyPlace();
 			Place next_place = place.getNextPlace(this.previous_place);
-			if (place instanceof Way) {
-				next_place.getPermission();
-				place.getPermission();
-			} else {
-				place.getPermission();
-				next_place.getPermission();
-			}
-			if (this.isLive() && this.getTeam().live) {				
+			
+				if (place instanceof Way) {					
+					this.getP(next_place);
+					this.getP(place);
+				} else {
+					this.getP(place);
+					this.getP(next_place);
+					
+				}
+			
+			if (this.isLive() && this.getTeam().live) {
 				System.out.println(this.toString() + " Moving On");
 				place.remove(this);
 				next_place.receive(this);
@@ -113,6 +119,14 @@ public class Soldier extends Thread {
 
 		}
 	}
+		public void getP(Place place){
+			try{
+				place.getPermission();	
+			} catch(RuntimeException e){
+				
+			}
+			
+		}
 
 	/**
 	 * funcion Fibonacci para la experiencia cada soldado gana 1 de experiencia

@@ -195,8 +195,8 @@ public class Game {
 
 		game.createMap();
 		game.startGame();
-		game.output.send("silver0 1");
-		game.output.send("golden0 5");
+//		game.output.send("silver0 1");
+//		game.output.send("golden0 5");
 
 	}
 
