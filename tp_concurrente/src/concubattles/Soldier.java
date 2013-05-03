@@ -89,7 +89,7 @@ public class Soldier extends Thread {
 			}
 			if (this.isLive() && this.getTeam().live) {
 				try {
-					sleep(3000);
+					sleep(0000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

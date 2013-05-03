@@ -13,7 +13,7 @@ public class Game {
 	private Channel<String> input;
 	private Channel<String> output;
 	public ArrayList<Place> places; 
-	public HashMap<Place, ArrayList<Integer> > connected;
+	public HashMap<Place, ArrayList<Place> > connected;
 	public ArrayList<Castle> castles;
 	
 	public int minID;
@@ -42,7 +42,7 @@ public class Game {
 		this.output = output;
 		this.places = new ArrayList<Place>();
 		this.minID = 10;
-		this.connected = new HashMap<Place, ArrayList<Integer>>();
+		this.connected = new HashMap<Place, ArrayList<Place>>();
 		this.castles= new ArrayList<Castle>();
 	}
 	
@@ -80,9 +80,9 @@ public class Game {
 	
 	public void addOrCreate(Place key, Place value){
 		if(!this.connected.containsKey(key)){
-			this.connected.put(key, new ArrayList<Integer>());
+			this.connected.put(key, new ArrayList<Place>());
 		}
-		this.connected.get(key).add(key.id);
+		this.connected.get(key).add(value);
 	}
 	
 	public void connect(Place place1, Place place2){
