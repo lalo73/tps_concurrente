@@ -106,7 +106,7 @@ public class Soldier extends Thread {
 				place.returnPermission();
 				next_place.returnPermission();
 				try {
-					sleep(8000);
+					sleep(0000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -120,11 +120,11 @@ public class Soldier extends Thread {
 		}
 	}
 		public void getP(Place place){
-			try{
-				place.getPermission();	
-			} catch(RuntimeException e){
+//			try{
+//				place.getPermission();	
+//			} catch(RuntimeException e){
 				place.getPermission();
-			}
+//			}
 			
 		}
 
