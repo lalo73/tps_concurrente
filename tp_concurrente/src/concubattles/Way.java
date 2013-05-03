@@ -4,8 +4,8 @@ import ar.edu.unq.tpi.pconc.Channel;
 
 public class Way extends Place {
 
-	public Way(Channel<String> controlChannel, int id) {
-		super(controlChannel,id);
+	public Way(Channel<String> controlChannel, int id, Game game) {
+		super(controlChannel,id,game);
 
 	}
 
@@ -20,8 +20,9 @@ public class Way extends Place {
 
 	@Override
 	public void receive(Soldier soldier) {
+		this.game.putSoldier(soldier, this.getNextPlace(soldier.getMy_place()), 0.5);
 		soldier.setPrevious_place(soldier.getMy_place());
-		soldier.setMy_place(this);
+		soldier.setMy_place(this);		
 		this.startBattle(soldier);
 		System.out.println(soldier.toString() + " en way");
 	}

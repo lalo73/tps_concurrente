@@ -77,6 +77,12 @@ public class Soldier extends Thread {
  * 
  */
 	public void run() {
+		try {
+			sleep(5000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		while (this.live) {
 			Place place = this.getMyPlace();
 			Place next_place = place.getNextPlace(this.previous_place);
@@ -87,18 +93,18 @@ public class Soldier extends Thread {
 				place.getPermission();
 				next_place.getPermission();
 			}
-			if (this.isLive() && this.getTeam().live) {
-				try {
-					sleep(0000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			if (this.isLive() && this.getTeam().live) {				
 				System.out.println(this.toString() + " Moving On");
 				place.remove(this);
 				next_place.receive(this);
 				place.returnPermission();
 				next_place.returnPermission();
+				try {
+					sleep(8000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else {
 				place.returnPermission();
 				next_place.returnPermission();

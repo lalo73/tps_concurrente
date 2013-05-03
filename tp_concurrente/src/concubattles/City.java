@@ -14,8 +14,8 @@ public class City extends Place {
 	}
 
 	
-	public City(Channel<String> controlChannel, int cityID) {
-		super(controlChannel, cityID);		
+	public City(Channel<String> controlChannel, int cityID, Game game) {
+		super(controlChannel, cityID,game);		
 		// TODO Auto-generated constructor stub
 	}
 
@@ -23,6 +23,7 @@ public class City extends Place {
 	public void receive(Soldier soldier) {		
 		soldier.setPrevious_place(soldier.getMy_place());
 		soldier.setMy_place(this);
+		this.game.putSoldier(soldier, this);
 		if (!(this.getTeam() == soldier.getTeam())) {
 			this.startBattle(soldier);
 		} else {

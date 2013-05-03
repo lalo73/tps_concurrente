@@ -13,8 +13,8 @@ public class Castle extends Place {
 		return "Castle of team: " + this.id;
 	}
 
-	public Castle(Channel<String> controlChannel, int castleID) {
-		super(controlChannel, castleID);
+	public Castle(Channel<String> controlChannel, int castleID, Game game) {
+		super(controlChannel, castleID, game);
 		this.live = true;
 		this.winner = false;
 		this.count = 0;		
@@ -30,6 +30,7 @@ public class Castle extends Place {
 		Soldier x = new Soldier(this, this, this.getNextSoldierID());
 		this.getSoldiers().add(x);
 		x.start();
+		this.game.addSoldier(x);
 		System.out.println(x.toString() + " Created");
 	}
 

@@ -11,6 +11,7 @@ public abstract class Place {
 	private ArrayList<Soldier> soldiers = new ArrayList<Soldier>();
 	private ArrayList<Place> roads = new ArrayList<Place>();
 	public int id;
+	public Game game;
 
 	public void getPermission() {
 		this.controlChannel.receive();
@@ -124,6 +125,7 @@ public abstract class Place {
 				if (killed.getLevel() > 1) {
 					killed.notifyCreateSoldier();
 				}
+				this.game.removeSoldeir(killed);
 			}
 			if (soldierEnemy.isLive()) {
 				this.conqueredBy(soldierEnemy);
@@ -155,10 +157,11 @@ public abstract class Place {
 		this.soldiers = soldiers;
 	}
 
-	public Place(Channel<String> controlChannel, int id) {
+	public Place(Channel<String> controlChannel, int id, Game game) {
 		this.controlChannel = controlChannel;
 		this.controlChannel.send("");
 		this.id = id;
+		this.game = game;
 	}
 
 }
