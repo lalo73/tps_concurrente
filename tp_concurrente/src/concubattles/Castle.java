@@ -30,12 +30,12 @@ public class Castle extends Place {
 		Soldier x = new Soldier(this, this, this.getNextSoldierID());
 		this.getSoldiers().add(x);
 		x.start();
-		System.out.println(x.toString() + " creado");
+		System.out.println(x.toString() + " Created");
 	}
 
 	@Override
 	public void receive(Soldier soldier) {
-		System.out.println(soldier.toString() + " en castle");
+		System.out.println(soldier.toString() + " In Castle");
 		soldier.setPrevious_place(soldier.getMy_place());
 		soldier.setMy_place(this);
 		if (!(this == soldier.getTeam())) {
@@ -47,14 +47,14 @@ public class Castle extends Place {
 	}
 
 	public void win() {
-		System.out.println(this.toString() + " win!");
+		System.out.println(this.toString() + " Win!");
 		this.live = false;
 		this.winner = true;
 	}
 
 	@Override
 	public void conqueredBy(Soldier soldier) {
-		System.out.println(this.toString() + " conquered");
+		System.out.println(this.toString() + " Conquered");
 		this.live = false;
 		soldier.getTeam().win();
 	}

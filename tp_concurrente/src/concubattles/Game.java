@@ -124,13 +124,12 @@ public class Game {
 	public void createMap(){
 		String map = this.input.receive();
 		String[] cities = map.split("\n");
-		int numCities = cities.length - 2;
-		for (int i = 1; i <= numCities; i++) {
+		int numCities = cities.length - 1;
+		for (int i = 2; i <= numCities; i++) {
 			this.createCity(i);
 		}
-		for (int i = numCities +1; i <= cities.length; i++){
-			this.createCastle(i);
-		}
+			this.createCastle(numCities + 1);
+			this.createCastle(1);	
 		
 		for(String city: cities){
 			String[] citiesID = city.split(" ");
@@ -159,8 +158,8 @@ public class Game {
 		
 		game.createMap();
 		game.startGame();
-//		game.output.send("silver0 1");
-//		game.output.send("silver1 5");
+		game.output.send("silver0 1");
+		game.output.send("golden0 5");
 
 	}
 

@@ -26,7 +26,7 @@ public class City extends Place {
 		if (!(this.getTeam() == soldier.getTeam())) {
 			this.startBattle(soldier);
 		} else {
-			System.out.println("Soldado" +soldier.numerito + "en ciudad");   
+			System.out.println("Soldier  " +soldier.numerito + "  In city");   
 			this.getSoldiers().add(soldier);
 		}
 
@@ -36,7 +36,7 @@ public class City extends Place {
 	public void conqueredBy(Soldier soldier) {
 		soldier.notifyCreateSoldier();
 		this.getSoldiers().add(soldier);
-		System.out.println(soldier.toString() + " en ciudad");
+		System.out.println(soldier.toString() + "  In City");
 		this.setTeam(soldier.getTeam());
 	}
 

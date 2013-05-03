@@ -111,7 +111,7 @@ public abstract class Place {
 					System.out.println(soldier.toString() + " killed");
 				} else {
 					soldierEnemy.setLive(false);
-					System.out.println(soldierEnemy.toString() + " invasor killed");
+					System.out.println(soldierEnemy.toString() + " Invader killed");
 				}
 				winner.experienceUp();
 				winner.notifyCreateSoldier();

@@ -94,7 +94,7 @@ public class Soldier extends Thread {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println(this.toString() + " moviendose");
+				System.out.println(this.toString() + " Moving On");
 				place.remove(this);
 				next_place.receive(this);
 				place.returnPermission();
