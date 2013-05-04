@@ -1,167 +1,74 @@
 package lalo_package;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
 
 import ar.edu.unq.tpi.pconc.Channel;
 
-public abstract class Place {
-	private Channel<String> controlChannel;
-	private HashMap<Place, Gate> connections;
-	private ArrayList<Place> knownPlaces;
+public abstract class Place extends Thread {
+
+	private Channel<PlaceProtocol> controlChannel;
+	private Channel<String> confirmationChannel;
+	private Channel<String> releaseChannel;
 	private ArrayList<Soldier> soldiers;
+	private Castle team;
+	private Integer placeID;
+	private Soldier invader;
+	private boolean live;
 
-	public void createConnectionTo(Place place, Channel<String> controlChannel) {
-		Gate gate = new Gate(this, place, controlChannel);
-		this.saveConnection(place, gate);
-		place.saveConnection(this, gate);
+	public Place(Integer id, Channel<PlaceProtocol> controChannel,
+			Channel<String> confirmationChannel, Channel<String> releaseChannel) {
+		this.setControlChannel(controChannel);
+		this.setConfirmationChannel(confirmationChannel);
+		this.setPlaceID(id);
+		this.setReleaseChannel(releaseChannel);		
 	}
-
-	public void saveConnection(Place place, Gate gate) {
-		this.connections.put(place, gate);
-		this.knownPlaces.add(place);
-	}
-
-	public Gate getAGate(Place previousPlace) {
-		int index = 0;
-		if (this.knownPlaces.size() != 1) {
-			index = this.getRandomInt();
+	
+	public void checkStatus() {
+		if (this.getInvader().getTeam().equals(this.getTeam())) {
+			this.getSoldiers().add(this.getInvader());
+		} else {
+			this.startBattle(this.getInvader());
 		}
-		Place place = this.knownPlaces.get(index);
-		if (place.equals(previousPlace)) {
-			place = this.getNextTo(index);
+	}
+	
+	public void startBattle(Soldier soldierEnemy) {
+		while (soldierEnemy.isLive() && !this.getSoldiers().isEmpty()) {
+			Soldier soldier = this.getSoldiers().get(0);
+			Soldier winner = this.fight(soldier, soldierEnemy);
+			Soldier dead;
+			if (winner.equals(soldierEnemy)) {
+				dead = soldier;
+			} else {
+				dead = soldierEnemy;
+			}
+			dead.setLive(false);
+			if (this.getSoldiers().contains(dead)) {
+				this.getSoldiers().remove(dead);
+			}
+			winner.experienceUp();
+			winner.notifyCreateSoldier();
+			if (dead.getLevel() > 1) {
+				dead.notifyCreateSoldier();
+			}
 		}
-		Gate gate = this.connections.get(place);
-		return gate;
-	}
-
-	private Place getNextTo(int index) {
-		int nextIndex = index + 1;
-		if (nextIndex == this.connections.size()) {
-			nextIndex = 0;
+		if (soldierEnemy.isLive()) {
+			this.conqueredBy(soldierEnemy);
 		}
-		return this.knownPlaces.get(nextIndex);
 	}
 
-	private Integer getRandomInt() {
-		return new Random().nextInt(this.knownPlaces.size());
-	}
+	public abstract void conqueredBy(Soldier soldierEnemy);
 
-	public Place(Channel<String> controlChannel) {
-		this.controlChannel = controlChannel;
-		this.connections = new HashMap<Place, Gate>();
-		this.knownPlaces = new ArrayList<Place>();
-		this.soldiers = new ArrayList<Soldier>();
-		this.controlChannel.send("");
-	}
-
-	public void getPermission() {
-		this.controlChannel.receive();
-	}
-
-	public void returnPermission() {
-		this.controlChannel.send("");
-	}
-
-	/**
-	 * La primera version de este metodo debe resolver batallas si las hubiera.
-	 * agregar al soldado a si mismo, etc TODO: Que lo haga un thread aparte.
-	 * 
-	 * @param soldier
-	 */
-	abstract public void receive(Soldier soldier);
-
-	/**
-	 * Talavez simplemente remueve el soldado de la lista de soldados
-	 * 
-	 * @param soldier
-	 */
-	public void remove(Soldier soldier) {
-		this.soldiers.remove(soldier);
-	}
-
-	/**
-	 * Toma 2 soldados les hace un random a cada uno de acuerdo al nivel y
-	 * retorna el que tiene el numero mas grande
-	 * 
-	 * @param soldier
-	 * @param soldierEnemy
-	 * @return soldado ganador
-	 */
 	public Soldier fight(Soldier soldier, Soldier soldierEnemy) {
 		int x = (int) (Math.random() * soldier.getLevel());
 		int y = (int) (Math.random() * soldierEnemy.getLevel());
-		if (x < y) {
+		if (x > y) {
 			return soldier;
 		} else {
 			return soldierEnemy;
 		}
 	}
-
-	/**
-	 * Llega un soldado enemigo.. Si este le gana a todos los soldados enemigos,
-	 * se agrega el soldado a la lista de soldados del castillo o ciudad ya que
-	 * posee un nuevo ocupante sino el soldado pierde y se interrumpe la
-	 * iteracion. (ver este tema de la batalla) se debe ver el tema de la
-	 * concurrencia.
-	 */
-	public void startBattle(Soldier soldierEnemy) {
-		if (this.getSoldiers().isEmpty()) {
-			this.conqueredBy(soldierEnemy);
-		} else {
-			while (soldierEnemy.isLive() && !this.getSoldiers().isEmpty()) {
-				Soldier soldier = this.getSoldiers().get(0);
-				Soldier winner = this.fight(soldier, soldierEnemy);
-				if (winner.equals(soldierEnemy)) {
-					this.getSoldiers().remove(soldier);
-				} else {
-					soldierEnemy.setLive(false);
-					System.out.println("Soldier killed");
-				}
-				winner.experienceUp();
-				winner.notifyCreateSoldier();
-				Soldier killed;
-				if (winner.equals(soldierEnemy)) {
-					killed = soldier;
-				} else {
-					killed = winner;
-				}
-				if (killed.getLevel() > 1) {
-					killed.notifyCreateSoldier();
-				}
-			}
-			if (soldierEnemy.isLive()) {
-				this.conqueredBy(soldierEnemy);
-			}
-		}
-	}
-
-	abstract public void conqueredBy(Soldier soldier);
-
-	public Channel<String> getControlChannel() {
-		return controlChannel;
-	}
-
-	public void setControlChannel(Channel<String> controlChannel) {
-		this.controlChannel = controlChannel;
-	}
-
-	public HashMap<Place, Gate> getConnections() {
-		return connections;
-	}
-
-	public void setConnections(HashMap<Place, Gate> connections) {
-		this.connections = connections;
-	}
-
-	public ArrayList<Place> getKnownPlaces() {
-		return knownPlaces;
-	}
-
-	public void setKnownPlaces(ArrayList<Place> knownPlaces) {
-		this.knownPlaces = knownPlaces;
-	}
+	
+	// Getters and Setters
 
 	public ArrayList<Soldier> getSoldiers() {
 		return soldiers;
@@ -169,6 +76,62 @@ public abstract class Place {
 
 	public void setSoldiers(ArrayList<Soldier> soldiers) {
 		this.soldiers = soldiers;
+	}
+
+	public Castle getTeam() {
+		return team;
+	}
+
+	public void setTeam(Castle team) {
+		this.team = team;
+	}
+
+	public Integer getPlaceID() {
+		return placeID;
+	}
+
+	public void setPlaceID(Integer placeID) {
+		this.placeID = placeID;
+	}
+
+	public Soldier getInvader() {
+		return invader;
+	}
+
+	public void setInvader(Soldier invader) {
+		this.invader = invader;
+	}
+
+	public Channel<PlaceProtocol> getControlChannel() {
+		return controlChannel;
+	}
+
+	public void setControlChannel(Channel<PlaceProtocol> controChannel) {
+		this.controlChannel = controChannel;
+	}
+
+	public Channel<String> getConfirmationChannel() {
+		return confirmationChannel;
+	}
+
+	public void setConfirmationChannel(Channel<String> confirmationChannel) {
+		this.confirmationChannel = confirmationChannel;
+	}
+
+	public Channel<String> getReleaseChannel() {
+		return releaseChannel;
+	}
+
+	public void setReleaseChannel(Channel<String> releaseChannel) {
+		this.releaseChannel = releaseChannel;
+	}
+
+	public boolean isLive() {
+		return live;
+	}
+
+	public void setLive(boolean live) {
+		this.live = live;
 	}
 
 }

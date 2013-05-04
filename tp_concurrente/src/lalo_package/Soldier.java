@@ -1,37 +1,38 @@
 package lalo_package;
 
-public class Soldier extends Thread{
+public class Soldier extends Thread {
 
-	private Castle team;
+	private boolean live;
 	private int level;
 	private int experience;
 	private int experienceToNextLevel;
+	private Castle team;
+	private Integer soldierID;
 	private Place currentPlace;
 	private Place previousPlace;
-	private boolean live;
 
-	public Soldier(Castle team) {
-		System.out.println("Soldier created!");
-		this.live = true;
-		this.currentPlace = team;
-		this.team = team;
-		this.level = 1;
-		this.experience = 0;
-		this.experienceToNextLevel = 1;
+	public Soldier(Integer id, Castle team) {
+		this.setSoldierID(id);
+		this.setTeam(team);
+		this.setCurrentPlace(team);
+		this.setLevel(1);
+		this.setLive(true);
+		this.setExperience(0);
+		this.setExperienceToNextLevel(2);
+		this.setPreviousPlace(null);
+	}
+
+	@Override
+	public void run() {
+//		while(this.isLive()){
+//			Place currentPlace = this.getCurrentPlace();
+//			Place nextPlace = currentPlace.getNextPlace();
+//			
+//		}
 	}
 
 	public void notifyCreateSoldier() {
-		this.getTeam().getPermission();
-		this.getTeam().createSoldier();
-		this.getTeam().returnPermission();
-	}
-
-	public Castle getTeam() {
-		return this.team;
-	}
-
-	public Place getCurrentPlace() {
-		return this.currentPlace;
+		this.getTeam().getControlChannel().send(PlaceProtocol.createSoldier);
 	}
 
 	public int fibonacci(int e) {
@@ -51,46 +52,6 @@ public class Soldier extends Thread{
 
 	}
 
-	public void levelUp() {
-		this.level = this.level + 1;
-	}
-
-	public boolean isLive() {
-		return this.live;
-	}
-	
-	public boolean teamGaming(){		
-		boolean gaming = this.getTeam().isLive();		
-		return gaming;
-	}
-
-	@Override
-	public void run() {
-		System.out.println("Soldier running");
-		while (this.isLive()) {
-			System.out.println("Soldier moving on");
-			Place place = this.getCurrentPlace();
-			Gate gate = place.getAGate(this.getPreviousPlace());
-			gate.getPermission();
-			if (this.isLive() && this.teamGaming()) {
-				System.out.println("Soldier moving");
-				gate.takeAwayFrom(this, place);
-				gate.returnPermission();
-			} else {
-				gate.returnPermission();
-				break;
-			}
-		}
-	}
-
-	public Place getPreviousPlace() {
-		return this.previousPlace;
-	}
-
-	/**
-	 * funcion Fibonacci para la experiencia cada soldado gana 1 de experiencia
-	 * por matar a un soldado enemigo..
-	 */
 	public void experienceUp() {
 
 		this.experience = this.experience + 1;
@@ -126,20 +87,48 @@ public class Soldier extends Thread{
 		this.experienceToNextLevel = experienceToNextLevel;
 	}
 
+	public void levelUp() {
+		this.level = this.level + 1;
+	}
+
+	public boolean isLive() {
+		return live;
+	}
+
+	public void setLive(boolean live) {
+		this.live = live;
+	}
+
+	public Castle getTeam() {
+		return team;
+	}
+
 	public void setTeam(Castle team) {
 		this.team = team;
+	}
+
+	public Integer getSoldierID() {
+		return soldierID;
+	}
+
+	public void setSoldierID(Integer soldierID) {
+		this.soldierID = soldierID;
+	}
+
+	public Place getCurrentPlace() {
+		return currentPlace;
 	}
 
 	public void setCurrentPlace(Place currentPlace) {
 		this.currentPlace = currentPlace;
 	}
 
-	public void setPreviousPlace(Place previousPlace) {
-		this.previousPlace = previousPlace;
+	public Place getPreviousPlace() {
+		return previousPlace;
 	}
 
-	public void setLive(boolean live) {
-		this.live = live;
+	public void setPreviousPlace(Place previousPlace) {
+		this.previousPlace = previousPlace;
 	}
 
 }

@@ -1,36 +1,37 @@
 package lalo_package;
 
+import java.util.ArrayList;
+
 import ar.edu.unq.tpi.pconc.Channel;
 
-public class City extends Place {
-	private Castle team;
+public class City extends Place{
+	
+	public City(Integer id, Channel<PlaceProtocol> controChannel,
+			Channel<String> confirmationChannel, Channel<String> releaseChannel) {
+		super(id, controChannel, confirmationChannel, releaseChannel);
+		// TODO Auto-generated constructor stub
+	}
 
-	public City(Channel<String> controlChannel) {
-		super(controlChannel);
-	}
-	
-	public void conqueredBy(Soldier soldier){
-		this.setTeam(soldier.getTeam());
-		soldier.notifyCreateSoldier();
-		this.getSoldiers().add(soldier);
-	}
-	
 	@Override
-	public void receive(Soldier soldier){
-		System.out.println("Llego soldado");
-		if (this.getTeam() == soldier.getTeam()) {
-			this.getSoldiers().add(soldier);
-		} else {
-			this.startBattle(soldier);
+	public void run() {
+		while (this.isLive()) {
+			PlaceProtocol command = this.getControlChannel().receive();
+			switch (command) {
+			case receiveSoldier:
+				this.getConfirmationChannel().send("ok");
+				this.getReleaseChannel().receive();
+				this.checkStatus();
+				break;
+			default:
+				break;
+			}
+
 		}
 	}
 	
-	public Castle getTeam() {
-		return team;
+	@Override
+	public void conqueredBy(Soldier soldierEnemy) {
+		this.setTeam(soldierEnemy.getTeam());
+		this.getSoldiers().add(soldierEnemy);			
 	}
-
-	public void setTeam(Castle team) {
-		this.team = team;
-	}
-
 }
