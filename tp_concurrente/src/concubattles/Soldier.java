@@ -81,7 +81,7 @@ public class Soldier extends Thread {
  */
 	public void run() {
 		try {
-			sleep(5000);
+			sleep(0000);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -90,7 +90,7 @@ public class Soldier extends Thread {
 			Place place = this.getMyPlace();
 			Place next_place = place.getNextPlace(this.previous_place);
 			
-				if (place instanceof Way) {					
+				if (! (place instanceof Way)) {					
 					this.getP(next_place);
 					this.getP(place);
 				} else {
