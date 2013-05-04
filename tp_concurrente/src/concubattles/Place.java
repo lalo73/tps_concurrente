@@ -98,7 +98,9 @@ public abstract class Place {
 
 	public void startBattle(Soldier soldierEnemy) {
 		if (this.getSoldiers().isEmpty()) {
-			this.conqueredBy(soldierEnemy);
+			this.conqueredBy(soldierEnemy);		
+		} else  if (soldierEnemy.getTeam().equals(this.getSoldiers().get(0).getTeam())){
+			this.getSoldiers().add(soldierEnemy);
 		} else {
 			while (soldierEnemy.isLive() && !this.getSoldiers().isEmpty()) {
 				Soldier soldier = this.getSoldiers().get(0);

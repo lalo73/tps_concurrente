@@ -11,10 +11,10 @@ public class Way extends Place {
 
 	@Override
 	public Place getNextPlace(Place previous_place) {
-		if (this.getRoads().get(0) == previous_place) {
-			return this.getRoads().get(1);
-		} else {
+		if (this.getRoads().get(1) == previous_place) {
 			return this.getRoads().get(0);
+		} else {
+			return this.getRoads().get(1);
 		}
 	}
 
@@ -24,7 +24,7 @@ public class Way extends Place {
 		soldier.setPrevious_place(soldier.getMy_place());
 		soldier.setMy_place(this);		
 		this.startBattle(soldier);
-		System.out.println(soldier.toString() + " en way");
+		System.out.println(soldier.toString() + " In way");
 	}
 
 	@Override

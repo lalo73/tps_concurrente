@@ -82,7 +82,7 @@ public class Soldier extends Thread {
  */
 	public void run() {
 		try {
-			sleep(5000);
+			sleep(0000);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -90,16 +90,15 @@ public class Soldier extends Thread {
 		while (this.live) {
 			Place place = this.getMyPlace();
 			Place next_place = place.getNextPlace(this.previous_place);
-
-			if (place instanceof Way) {
-				this.getP(next_place);
-				this.getP(place);
-			} else {
-				this.getP(place);
-				this.getP(next_place);
-
-			}
-
+			
+				if (! (place instanceof Way)) {					
+					this.getP(next_place);
+					this.getP(place);
+				} else {
+					this.getP(place);
+					this.getP(next_place);
+					
+				}
 			if (this.isLive() && this.getTeam().live) {
 				System.out.println(this.toString() + " Moving On");
 				place.remove(this);
@@ -107,7 +106,7 @@ public class Soldier extends Thread {
 				place.returnPermission();
 				next_place.returnPermission();
 				try {
-					sleep(3000);
+					sleep(0000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

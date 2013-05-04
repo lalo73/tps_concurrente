@@ -182,13 +182,18 @@ public class Game {
 		this.output.send("silver1 " + i);
 	}
 
-	public void startGame() {
+	public void startGame() throws InterruptedException {
+		try {
+			Thread.sleep(5000);
+		}catch (RuntimeException e){
+			
+		}
 		for (Castle c : this.castles) {
 			c.createSoldier();
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 
 		Game game = new Game(new Channel<String>(1002), new Channel<String>(
 				1001));
