@@ -14,65 +14,52 @@ public class Game {
 	public ArrayList<Place> places;
 	public HashMap<Place, ArrayList<Place>> connected;
 	public ArrayList<Castle> castles;
-
 	public int minID;
 
-	public int getNextID() {
-		int next = this.minID;
-		this.increaseID();
-		return next;
-	}
-
 	public Game(Channel<String> input, Channel<String> output) {
-		this.count = 10;
-		this.input = input;
-		this.output = output;
-		this.places = new ArrayList<Place>();
-		this.minID = 20;
-		this.connected = new HashMap<Place, ArrayList<Place>>();
-		this.castles = new ArrayList<Castle>();
-	}
-
-	public void ensureID(int id) {
-		while (this.minID <= id) {
-			this.minID++;
-		}
+		this.setCount(10);
+		this.setInput(input);
+		this.setOutput(output);
+		this.setPlaces(new ArrayList<Place>());
+		this.setMinID(1);
+		this.setConnected(new HashMap<Place, ArrayList<Place>>());
+		this.setCastles(new ArrayList<Castle>());
 	}
 
 	public Castle createCastle(int castleID) {		
-		this.ensureID(castleID);
+		this.ensureMinID(castleID);
 		Castle castle = new Castle(
 				new Channel<String>(this.getNextChannelID()), castleID, this);
-		this.places.add(castle);
-		this.castles.add(castle);
+		this.getPlaces().add(castle);
+		this.getCastles().add(castle);
 		return castle;
 
 	}
 
 	public String getColorSoldier(Castle castle) {
-		if (castle.id == 1) {
+		if (castle.getId() == 1) {
 			return "gold";
 		}
 		return "silver";
 	}
 
 	public void putSoldier(Soldier soldier, Place place) {
-		this.send(this.getColorSoldier(soldier.getTeam()) + soldier.numerito
-				+ " " + place.id);
+		this.send(this.getColorSoldier(soldier.getTeam()) + soldier.getSoldier_id()
+				+ " " + place.getId());
 	}
 
 	public void putSoldier(Soldier soldier, Place place, double dou) {
-		this.send(this.getColorSoldier(soldier.getTeam()) + soldier.numerito
-				+ " " + place.id + " " + dou);
+		this.send(this.getColorSoldier(soldier.getTeam()) + soldier.getSoldier_id()
+				+ " " + place.getId() + " " + dou);
 	}
 
 	public void removeSoldier(Soldier soldier) {
-		this.send(this.getColorSoldier(soldier.getTeam()) + soldier.numerito);
+		this.send(this.getColorSoldier(soldier.getTeam()) + soldier.getSoldier_id());
 	}
 
 	public void addSoldier(Soldier soldier) {
-		this.send(this.getColorSoldier(soldier.getTeam()) + soldier.numerito
-				+ " " + soldier.getTeam().id);
+		this.send(this.getColorSoldier(soldier.getTeam()) + soldier.getSoldier_id()
+				+ " " + soldier.getTeam().getId());
 	}
 
 	public void send(String message) {
@@ -80,31 +67,29 @@ public class Game {
 	}
 
 	public City createCity(int ciryID) {		
-		this.ensureID(ciryID);
-		City city = new City(new Channel<String>(this.getNextChannelID()),
-				ciryID, this);
-		this.places.add(city);
+		this.ensureMinID(ciryID);
+		City city = new City(new Channel<String>(this.getNextChannelID()), ciryID, this);
+		this.getPlaces().add(city);
 		return city;
 
 	}
 
-	private Way createway(int id) {
-		this.ensureID(id);
-		Way way = new Way(new Channel<String>(this.getNextChannelID()), id,
-				this);
-		this.places.add(way);
+	private Way createWay(int id) {
+		this.ensureMinID(id);
+		Way way = new Way(new Channel<String>(this.getNextChannelID()), id, this);
+		this.getPlaces().add(way);
 		return way;
 	}
 
 	public void addOrCreate(Place key, Place value) {
-		if (!this.connected.containsKey(key)) {
-			this.connected.put(key, new ArrayList<Place>());
+		if (!this.getConnected().containsKey(key)) {
+			this.getConnected().put(key, new ArrayList<Place>());
 		}
-		this.connected.get(key).add(value);
+		this.getConnected().get(key).add(value);
 	}
 
 	public void connect(Place place1, Place place2) {
-		Way way = this.createway(this.getNextID());		
+		Way way = this.createWay(this.getNextID());		
 		place1.getRoads().add(way);
 		place2.getRoads().add(way);
 		way.getRoads().add(place1);
@@ -113,7 +98,7 @@ public class Game {
 		this.addOrCreate(place2, place1);
 	}
 
-	public void connectbyID(int id1, int id2) {
+	public void connectByID(int id1, int id2) {
 		Place place1 = this.getPlaceById(id1);
 		Place place2 = this.getPlaceById(id2);
 		if (isConnectedTo(place1, place2)) {
@@ -124,8 +109,8 @@ public class Game {
 	}
 
 	public Place getPlaceById(int id) {
-		for (Place place : this.places) {
-			if (place.id == id) {
+		for (Place place : this.getPlaces()) {
+			if (place.getId() == id) {
 				return place;
 			}
 		}
@@ -133,14 +118,14 @@ public class Game {
 	}
 
 	public boolean isConnectedTo(Place place1, Place place2) {
-		if (this.connected.containsKey(place1)) {
-			return this.connected.get(place1).contains(place2);
+		if (this.getConnected().containsKey(place1)) {
+			return this.getConnected().get(place1).contains(place2);
 		}
 		return false;
 	}
 
 	public void createMap() {
-		String map = this.input.receive();
+		String map = this.getInput().receive();
 		String[] cities = map.split("\n");
 		int numCities = cities.length - 1;
 		for (int i = 2; i <= numCities; i++) {
@@ -153,15 +138,11 @@ public class Game {
 			String[] citiesID = city.split(" ");
 			String id1 = citiesID[1];
 			for (String id : Arrays.copyOfRange(citiesID, 2, citiesID.length)) {
-				this.connectbyID(Utils.parseInt(id1), Utils.parseInt(id));
+				this.connectByID(Utils.parseInt(id1), Utils.parseInt(id));
 			}
 
 		}
 
-	}
-
-	public void moveSilver(int i) {
-		this.output.send("silver1 " + i);
 	}
 
 	public void startGame() {
@@ -170,13 +151,29 @@ public class Game {
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
-		for (Castle c : this.castles) {
+		for (Castle c : this.getCastles()) {			
 			c.createSoldier();
 		}
 	}
 	
+	public void increaseMinID() {
+		this.minID++;
+	}
+	
+	public void ensureMinID(int id) {
+		while (this.getMinID() <= id) {
+			this.increaseMinID();
+		}
+	}
+	
+	public int getNextID() {
+		int next = this.minID;
+		this.increaseMinID();
+		return next;
+	}
+	
 	public int getNextChannelID() {
-		int next = this.count;
+		int next = this.getCount();
 		this.increaseCount();
 		return next;
 	}
@@ -185,14 +182,68 @@ public class Game {
 		this.count++;
 	}
 
-	public void increaseID() {
-		this.minID++;
-	}
-
 	public static void main(String[] args) {
 		Game game = new Game(new Channel<String>(1002), new Channel<String>(1001));
 		game.createMap();
 		game.startGame();
 	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public Channel<String> getInput() {
+		return input;
+	}
+
+	public void setInput(Channel<String> input) {
+		this.input = input;
+	}
+
+	public Channel<String> getOutput() {
+		return output;
+	}
+
+	public void setOutput(Channel<String> output) {
+		this.output = output;
+	}
+
+	public ArrayList<Place> getPlaces() {
+		return places;
+	}
+
+	public void setPlaces(ArrayList<Place> places) {
+		this.places = places;
+	}
+
+	public HashMap<Place, ArrayList<Place>> getConnected() {
+		return connected;
+	}
+
+	public void setConnected(HashMap<Place, ArrayList<Place>> connected) {
+		this.connected = connected;
+	}
+
+	public ArrayList<Castle> getCastles() {
+		return castles;
+	}
+
+	public void setCastles(ArrayList<Castle> castles) {
+		this.castles = castles;
+	}
+
+	public int getMinID() {
+		return minID;
+	}
+
+	public void setMinID(int minID) {
+		this.minID = minID;
+	}
+	
+	
 
 }

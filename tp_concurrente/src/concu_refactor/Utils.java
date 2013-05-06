@@ -13,8 +13,20 @@ public class Utils {
 		}
 		return f;
 	}
-	
-	public static int getRandom(int max){
+
+	public static int getRandom(int max) {
 		return (int) (Math.random() * (max));
+	}
+
+	// public static int getIntRandom(int max){
+	// return redondear(getRandom(max));
+	// }
+	
+	public static void print(String message){
+		System.out.println(message);
+	}
+
+	public static int redondear(double numero) {
+		return (int) Math.rint(numero);
 	}
 }

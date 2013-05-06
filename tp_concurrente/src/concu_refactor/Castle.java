@@ -4,56 +4,82 @@ import ar.edu.unq.tpi.pconc.Channel;
 
 public class Castle extends Place {
 
-	boolean live;
-	boolean winner;
-	int count;
+	private boolean live;
+	private boolean winner;
+	private int count;
 
 	public Castle(Channel<String> controlChannel, int castleID, Game game) {
 		super(controlChannel, castleID, game);
-		this.live = true;
-		this.winner = false;
-		this.count = 0;
-	}
-
-	public int getNextSoldierID() {
-		int next = this.count;
-		this.count++;
-		return next;
+		this.setLive(true);
+		this.setWinner(false);
+		this.setCount(0);
 	}
 
 	public void createSoldier() {
-		if (this.live) {
-			Soldier x = new Soldier(this, this, this.getNextSoldierID());
-			this.getSoldiers().add(x);
-			x.start();
-			this.game.addSoldier(x);
-			System.out.println(x.toString() + " Created");
+		if (this.isLive()) {
+			Soldier newSoldier = new Soldier(this, this, this.getNextSoldierID());
+			this.getSoldiers().add(newSoldier);
+			newSoldier.start();
+			this.getGame().addSoldier(newSoldier);			
 		}
 	}
 
 	@Override
 	public void receive(Soldier soldier) {
-		this.game.putSoldier(soldier, this);
+		this.getGame().putSoldier(soldier, this);
 		super.receive(soldier);
 	}
 	
 	@Override 
 	public boolean accept(Soldier soldier){
-		return this == soldier.getTeam();
+		return this.equals(soldier.getTeam());
 	}
 
 	public void win() {		
-		System.out.println(this.getGame().getColorSoldier(this) + " win!");
-		this.live = false;
-		this.winner = true;
+		Utils.print(this.getGame().getColorSoldier(this) + " team  win!");
+		this.setLive(false);
+		this.setWinner(true);
 	}
 
 	@Override
 	public void conqueredBy(Soldier soldier) {
-		System.out.println(this.getGame().getColorSoldier(this) + " lose!");
-		this.getSoldiers().add(soldier);		
-		this.live = false;
+		Utils.print(this.getGame().getColorSoldier(this) + " team  lose!");			
+		this.setLive(false);
 		soldier.getTeam().win();
 	}
+	
+	public int getNextSoldierID() {
+		int next = this.getCount();
+		this.increaseSoldierCoun();
+		return next;
+	}
+	
+	public void increaseSoldierCoun(){
+		this.count++;
+	}
 
+	public boolean isLive() {
+		return live;
+	}
+
+	public void setLive(boolean live) {
+		this.live = live;
+	}
+
+	public boolean isWinner() {
+		return winner;
+	}
+
+	public void setWinner(boolean winner) {
+		this.winner = winner;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
 }

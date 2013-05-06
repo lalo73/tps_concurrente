@@ -9,13 +9,14 @@ import java.util.concurrent.ExecutionException;
  */
 public class Test_Project_Class {
 	public static void main(String[] args) {
-		System.out.println("  Hello Fede again!");
-		String[] cities = "  Hello Fede again!".split(" ");
-		System.out.println(cities);
-		for(String i: cities){
-			System.out.println(i);
-		}
-		
+		double num = 3.5786;
+		System.out.println(num*1);
+		System.out.println(redondear(num));
 	}
 
+	
+	public static double redondear(double numero)
+	{
+	      return Math.rint(numero);
+	}
 }

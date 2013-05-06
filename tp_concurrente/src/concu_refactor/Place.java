@@ -1,22 +1,20 @@
 package concu_refactor;
 
 import java.util.ArrayList;
-
 import ar.edu.unq.tpi.pconc.Channel;
-import concu_refactor.Soldier;
 
 public abstract class Place {
 	private Channel<String> controlChannel;
 	private ArrayList<Soldier> soldiers = new ArrayList<Soldier>();
 	private ArrayList<Place> roads = new ArrayList<Place>();
-	public int id;
-	public Game game;
+	private int id;
+	private Game game;
 
 	public Place(Channel<String> controlChannel, int id, Game game) {
 		this.controlChannel = controlChannel;
 		this.controlChannel.send("");
-		this.id = id;
-		this.game = game;
+		this.setId(id);
+		this.setGame(game);
 	}
 
 	public void getPermission() {
@@ -38,10 +36,9 @@ public abstract class Place {
 		if (this.getRoads().size() == 1) {
 			return this.getRoads().get(0);
 		}
-		this.getRoads().remove(previous_place);
-		// int x = (int) (Math.random() * (this.getRoads().size()));
-		int x = Utils.getRandom(this.getRoads().size());
-		Place nextPlace = this.getRoads().get(x);
+		this.getRoads().remove(previous_place);		
+		int index = Utils.getRandom(this.getRoads().size());
+		Place nextPlace = this.getRoads().get(index);
 		this.getRoads().add(previous_place);
 		return nextPlace;
 	}
@@ -55,12 +52,12 @@ public abstract class Place {
 	 * @param soldier
 	 */
 	protected void receive(Soldier soldier) {
-		soldier.setPrevious_place(soldier.getMy_place());
-		soldier.setMy_place(this);
-		if (this.accept(soldier)) {
-			this.getSoldiers().add(soldier);
-		} else {
+		soldier.setPrevious_place(soldier.getCurrentPlace());
+		soldier.setCurrentPlace(this);
+		if (!this.accept(soldier)) {
 			this.startBattle(soldier);
+		} else {
+			this.getSoldiers().add(soldier);
 		}
 	}
 
@@ -122,9 +119,9 @@ public abstract class Place {
 					this.getSoldiers().remove(dead);
 				}
 				winner.experienceUp();
-				winner.notifyCreateSoldier();
+				winner.notifyCreateSoldier();				
 				if (dead.getLevel() > 1) {
-					dead.notifyCreateSoldier();
+					dead.notifyCreateSoldier();					
 				}
 				this.getGame().removeSoldier(dead);
 			}
@@ -164,5 +161,13 @@ public abstract class Place {
 
 	public void setSoldiers(ArrayList<Soldier> soldiers) {
 		this.soldiers = soldiers;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
