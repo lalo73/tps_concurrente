@@ -1,7 +1,5 @@
 package concu_refactor;
 
-import java.util.concurrent.ExecutionException;
-
 /**
  * This class is only to test the right clone of github project
  * @author leandro
